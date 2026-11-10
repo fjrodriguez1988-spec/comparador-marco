@@ -384,7 +384,8 @@
     <div class="est rv" role="note">
       <h2>Importante: todo lo que ves son estimados</h2>
       <ul>
-        <li><b>Renta:</b> viene de Rentometer, que compara propiedades parecidas cercanas. No es una garantía de cuánto se va a rentar.</li>
+        <li><b>Renta:</b> son estimados de Rentometer (consulta QuickView), basados en propiedades parecidas y cercanas con las mismas recámaras. En los dúplex comparamos cada lado por separado (3 recámaras por lado) y multiplicamos por dos. No es una garantía de cuánto se va a rentar.</li>
+        <li><b>Precio:</b> el precio que ves es el que pide el vendedor (precio de lista). Siempre podemos hacer una oferta más baja o a otro precio, y negociar. Los retornos de esta página se calculan con el precio que piden.</li>
         <li><b>Impuestos:</b> son los del último año registrado. Pueden subir cuando el condado vuelva a evaluar la propiedad.</li>
         <li><b>Seguro:</b> es un estimado. Hay que pedir cotizaciones reales a un agente de seguros.</li>
         <li><b>Porcentajes de gastos y proyecciones:</b> son valores de referencia y simulaciones, no predicciones. Cada inversionista maneja su negocio distinto, por eso puedes cambiarlos.</li>
@@ -396,7 +397,7 @@
   <section id="resumen">
     <div class="rule"></div>
     <h2>¿Cuál rinde más?</h2>
-    <p class="lead">El retorno neto es lo que te queda al año después de pagar todos los gastos, comparado con el efectivo que pones. Toca una propiedad para ir a ella.</p>
+    <p class="lead">El retorno neto es lo que te queda al año después de pagar todos los gastos, comparado con el efectivo que pones. Toca una propiedad para ir a ella. Los retornos usan el precio que piden; si negociamos un precio más bajo, el retorno sube.</p>
     <div class="panel rv">
       <div class="scrow">
         <div class="seg3" id="scn" role="group" aria-label="Escenario de renta">
@@ -520,7 +521,8 @@
 
   <div class="foot">
     <div class="footlogos"><div class="eldbg"><img src="assets/eldorado-logo.png" alt="El Dorado Home Group" style="height:44px"></div><div class="kwchip" style="border:1px solid var(--line)"><img src="assets/kw-cary.png" alt="Keller Williams Realty Cary" style="height:30px"></div></div>
-    <p><b>Renta:</b> proviene de Rentometer (consulta QuickView). Usamos la mediana de las rentas de propiedades similares cercanas, de los últimos 12 meses. La mediana es el punto medio: la mitad de las rentas comparables está por encima y la otra mitad por debajo. Es una referencia de mercado, no una garantía de lo que se va a rentar.</p>
+    <p><b>Renta:</b> proviene de Rentometer (consulta QuickView), y son estimados. Usamos la mediana de las rentas de propiedades similares cercanas con las mismas recámaras, de los últimos 12 meses. En los dúplex comparamos cada lado por separado y multiplicamos por el número de lados. La mediana es el punto medio: la mitad de las rentas comparables está por encima y la otra mitad por debajo. Es una referencia de mercado, no una garantía de lo que se va a rentar.</p>
+    <p><b>Precio:</b> el precio mostrado es el precio que pide el vendedor. Podemos hacer una oferta más baja o distinta, y el vendedor puede aceptar, rechazar o contraofertar. Los retornos de esta página se calculan con el precio que piden, salvo que tú pongas un descuento.</p>
     <p><b>Impuestos:</b> son los impuestos reales del último año registrado en el MLS (año fiscal 2025). Son datos históricos y pueden cambiar cuando el condado vuelva a evaluar la propiedad. Cuando el MLS no publica el impuesto de una propiedad, lo marcamos como estimado y explicamos cómo se calculó.</p>
     <p><b>Seguro:</b> es un estimado para una póliza de arrendador. Te recomendamos pedir cotizaciones reales a un agente de seguros, porque el precio varía según la propiedad, el techo, la zona y tu historial.</p>
     <p><b>Simulaciones:</b> la sección "Tu dinero en el tiempo" y los escenarios de renta son ejercicios con los números que tú eliges. No predicen el futuro ni garantizan resultados. Las distancias del mapa son en línea recta y aproximadas.</p>
@@ -646,7 +648,8 @@
     $('hint2').hidden=n<3;
     var h='<div class="h first"></div>'+PROPS.map(function(p){return '<div class="h c">'+p.name.replace(' Street','').replace(' Drive','')+'<br><span style="font-weight:500">'+p.city.split(',')[0]+(p.kind?' · '+p.kind:'')+'</span></div>';}).join('');
     function row(label,vals,last){h+='<div class="lbl'+(last?' last':'')+'">'+label+'</div>'+vals.map(function(v){return '<div class="c'+(last?' last':'')+'">'+v+'</div>';}).join('');}
-    row('Precio de oferta',r.map(function(x){return fmt(x.offer);}));
+    row('Precio que piden',PROPS.map(function(p){return fmt(p.price);}));
+    row('Tu precio de oferta',r.map(function(x){return fmt(x.offer);}));
     row('Renta al mes',r.map(function(x){return fmt(x.rentM);}));
     row('Ganancia al mes',r.map(function(x){return fmt(x.noi/12);}));
     row('Efectivo que pones',r.map(function(x){return fmt(x.cash);}),true);
@@ -687,7 +690,7 @@
     selPin=id;
     [].forEach.call(document.querySelectorAll('.pin'),function(g){g.classList.toggle('sel',g.getAttribute('data-pin')===id);});
     var p=PROPS.filter(function(x){return x.id===id;})[0],c=calc(p),d=miles(HUB.lat,HUB.lon,p.lat,p.lon);
-    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · '+fmt(c.offer)+' · retorno neto estimado '+pct(c.ret)+'</small></div><button class="btn gold" type="button" data-go="'+id+'">Ver esta propiedad</button>';
+    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</small></div><button class="btn gold" type="button" data-go="'+id+'">Ver esta propiedad</button>';
   }
   function goTo(id){
     var el=document.querySelector('.prop[data-p="'+id+'"]');if(!el)return;
@@ -726,12 +729,12 @@
       var st=state.props[p.id];
       var opts=p.rents.map(function(r){return '<option value="'+r.k+'"'+(st.rent===r.k?' selected':'')+'>'+r.label+(r.k==='custom'?'':' : '+fmt(r.v)+' al mes')+'</option>';}).join('');
       out+='<article class="prop" data-p="'+p.id+'">'
-        +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' · Precio de lista '+fmt(p.price)+(p.orig>p.price?' (antes '+fmt(p.orig)+')':'')+'</div>'
+        +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' · Precio que piden '+fmt(p.price)+(p.orig>p.price?' (antes '+fmt(p.orig)+')':'')+' · Se puede negociar</div>'
         +'<div class="tags">'+(p.kind?'<span class="tag k">'+p.kind+'</span>':'')+p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>'
         +'<a class="btn gold" href="'+p.link+'" target="_blank" rel="noopener">Ver la propiedad y sus fotos</a>'
         +'<div class="viz">'+donutHTML()+'<ul class="legend"><li class="ttl">A dónde va cada $100 de renta</li>'+legendHTML()+'</ul></div>'
         +'<div class="keys">'
-        +'<div class="key"><small>Renta al mes (estimada)</small><strong class="js-rent"></strong></div>'
+        +'<div class="key"><small>Renta al mes (estimada, Rentometer)</small><strong class="js-rent"></strong></div>'
         +'<div class="key"><small>Ganancia neta al mes</small><strong class="js-gain"></strong></div>'
         +'<div class="key"><small>Efectivo total que pones</small><strong class="js-cash"></strong></div>'
         +'</div>'
@@ -741,7 +744,7 @@
         +(p.cardNote?'<p class="advnote">'+p.cardNote+'</p>':'')
         +'<div class="addrow"><div><b>Agregar a mi portafolio</b><small>Cuántas de estas propiedades quieres sumar</small></div><div class="step2"><button type="button" data-q="-1" aria-label="Quitar una">−</button><span class="js-q">0</span><button type="button" data-q="1" aria-label="Agregar una">+</button></div></div>'
         +'<details><summary>Ajusta los números de esta propiedad</summary><div class="in"><div class="grid g2" style="margin-top:8px">'
-        +'<label class="f"><span>Descuento sobre el precio de lista</span><div class="inp"><input data-k="disc" type="number" inputmode="decimal" step="1" min="0" max="50" value="'+st.disc+'"><i>%</i></div></label>'
+        +'<label class="f"><span>Descuento sobre el precio que piden<small>El vendedor pide '+fmt(p.price)+'. Podemos ofrecer menos.</small></span><div class="inp"><input data-k="disc" type="number" inputmode="decimal" step="1" min="0" max="50" value="'+st.disc+'"><i>%</i></div></label>'
         +'<label class="f"><span>Tu precio de oferta</span><div class="inp"><i>$</i><input class="js-offer" disabled value=""></div></label>'
         +'<label class="f" style="grid-column:1/-1"><span>Escenario de renta (todas las unidades)</span><select data-k="rent">'+opts+'</select></label>'
         +(st.rent==='custom'?'<label class="f"><span>Renta mensual total</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
@@ -754,7 +757,7 @@
         +'<tr><td>Renta del año</td><td></td></tr><tr class="sub"><td>Administración</td><td></td></tr><tr class="sub"><td>Mantenimiento</td><td></td></tr><tr class="sub"><td>Meses sin inquilino</td><td></td></tr><tr class="sub"><td>Reserva grandes reparaciones</td><td></td></tr><tr class="sub"><td>Impuestos</td><td></td></tr><tr class="sub"><td>Seguro</td><td></td></tr><tr class="sub"><td>HOA</td><td></td></tr><tr class="t"><td>Ganancia neta al año</td><td></td></tr>'
         +'</table>'
         +'<div class="meter"><div><small>Renta mensual para llegar a tu meta</small><strong class="js-need"></strong></div><div><small>Precio máximo para llegar a tu meta</small><strong class="js-max"></strong></div></div>'
-        +'<p class="src"><b>Renta:</b> '+p.rentSrc+'</p>'
+        +'<p class="src"><b>Renta (estimado de Rentometer QuickView):</b> '+p.rentSrc+'</p>'
         +'<p class="src"><b>Impuestos:</b> '+p.taxNote+(p.taxEst?'':' Son datos históricos y pueden cambiar.')+'</p>'
         +'<p class="src"><b>Seguro:</b> estimado. Pide cotizaciones reales a un agente de seguros.</p>'
         +'</div></details>'
