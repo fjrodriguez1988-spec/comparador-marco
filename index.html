@@ -183,13 +183,18 @@
   .tag{font-size:12px;background:var(--field);border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--soft)}
   .tag.k{color:var(--navy);font-weight:600;background:var(--gold-bg);border-color:#E9D5A3}
   .viz{display:flex;gap:30px;align-items:center;margin:22px 0 6px;flex-wrap:wrap}
-  .donutwrap{position:relative;width:230px;height:230px;flex:0 0 auto;margin:0 auto}
-  .donut{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 14px rgba(12,44,66,.12))}
-  .donut circle{fill:none;stroke-width:22}
-  .donut .track{stroke:var(--field)}
-  .donut .seg{transition:stroke-dasharray .9s cubic-bezier(.2,.8,.2,1),stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),opacity .2s;cursor:pointer}
-  .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center}
-  .center strong{font-family:'Poppins',Arial,sans-serif;font-size:42px;font-weight:800;line-height:1;color:var(--navy)}
+  .donutwrap{--s:310px;position:relative;width:var(--s);height:calc(var(--s)*.78);flex:0 0 auto;margin:0 auto}
+  .tilt{position:absolute;left:0;top:calc(50% - var(--s)/2 - 8px);width:var(--s);height:var(--s);transform:perspective(1100px) rotateX(50deg);transform-style:preserve-3d}
+  .layer{position:absolute;inset:0;pointer-events:none}
+  .layer.top{pointer-events:auto}
+  .layer svg{width:100%;height:100%;display:block;overflow:visible}
+  .shadow{position:absolute;left:8%;right:8%;bottom:-4%;height:20%;background:radial-gradient(ellipse at center,rgba(12,44,66,.42),transparent 70%);filter:blur(7px)}
+  .donut circle,.layer circle{fill:none;stroke-width:22}
+  .layer .track{stroke:rgba(12,44,66,.07)}
+  .layer .seg{transition:stroke-dasharray .9s cubic-bezier(.2,.8,.2,1),stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1),opacity .25s,transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+  .layer .gloss{pointer-events:none}
+  .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center;transform:translateY(-7px)}
+  .center strong{font-family:'Poppins',Arial,sans-serif;font-size:36px;font-weight:800;line-height:1;color:var(--navy)}
   .center span{font-size:12px;color:var(--soft);margin-top:4px;line-height:1.25}
   .legend{list-style:none;margin:0;padding:0;flex:1 1 280px;min-width:0}
   .legend .ttl{font-family:'Poppins',Arial,sans-serif;font-weight:600;font-size:14px;margin:0 0 8px;color:var(--navy)}
@@ -199,12 +204,12 @@
   .lg .am{color:var(--soft);text-align:right}
   .lg .pc{font-weight:600;min-width:46px;text-align:right}
   .lg .sub{grid-column:2/-1;font-size:11px;color:var(--soft);margin-top:-2px;display:none}
-  .prop[data-hl] .seg{opacity:.22}
-  .prop[data-hl="0"] .seg[data-i="0"],.prop[data-hl="1"] .seg[data-i="1"],.prop[data-hl="2"] .seg[data-i="2"],.prop[data-hl="3"] .seg[data-i="3"]{opacity:1}
+  .prop[data-hl] .layer .seg{opacity:.28}
+  .prop[data-hl="0"] .layer .seg[data-i="0"],.prop[data-hl="1"] .layer .seg[data-i="1"],.prop[data-hl="2"] .layer .seg[data-i="2"],.prop[data-hl="3"] .layer .seg[data-i="3"]{opacity:1}
   .prop[data-hl] .lg:not(.on){opacity:.55}
   .prop[data-hl] .lg.on .sub{display:block}
   .keys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 0}
-  @media (max-width:560px){.keys{grid-template-columns:1fr}.donutwrap{width:200px;height:200px}.center strong{font-size:36px}
+  @media (max-width:560px){.keys{grid-template-columns:1fr}.donutwrap{--s:250px}.center strong{font-size:29px}
     .lg{grid-template-columns:14px 1fr auto}
     .lg .am{grid-column:2;grid-row:2;text-align:left;font-size:12px}
     .lg .pc{grid-column:3;grid-row:1}
@@ -325,6 +330,13 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="dg0" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="130" y2="130" gradientTransform="rotate(90 70 70)"><stop offset="0" stop-color="#F6DE9B"/><stop offset=".5" stop-color="#C9973A"/><stop offset="1" stop-color="#9A6F1E"/></linearGradient>
+  <linearGradient id="dg1" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="130" y2="130" gradientTransform="rotate(90 70 70)"><stop offset="0" stop-color="#3A7BA6"/><stop offset=".5" stop-color="#0C2C42"/><stop offset="1" stop-color="#051722"/></linearGradient>
+  <linearGradient id="dg2" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="130" y2="130" gradientTransform="rotate(90 70 70)"><stop offset="0" stop-color="#DE9062"/><stop offset=".5" stop-color="#A0522D"/><stop offset="1" stop-color="#6B3217"/></linearGradient>
+  <linearGradient id="dg3" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="130" y2="130" gradientTransform="rotate(90 70 70)"><stop offset="0" stop-color="#E4ECF1"/><stop offset=".5" stop-color="#9DB0BE"/><stop offset="1" stop-color="#71879A"/></linearGradient>
+  <linearGradient id="dgl" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="130" y2="130" gradientTransform="rotate(90 70 70)"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+</defs></svg>
 
 <header class="hero">
   <div class="orb a"></div><div class="orb b"></div><div class="grid-bg"></div>
@@ -547,10 +559,10 @@
   var num=function(v,d){var x=parseFloat(v);return isFinite(x)?x:d;};
   var R=52, C=2*Math.PI*R;
   var SEG=[
-    {nm:'Tu ganancia neta',sub:'Lo que te queda al año después de todos los gastos.',col:'#C9973A'},
-    {nm:'Impuestos, seguro y HOA',sub:'Impuestos de propiedad, seguro del arrendador y cuota de la comunidad, si hay.',col:'#0C2C42'},
-    {nm:'Administración y mantenimiento',sub:'Quien administra la propiedad y las reparaciones normales.',col:'#A0522D'},
-    {nm:'Meses sin inquilino y reserva',sub:'Meses vacíos entre inquilinos y ahorro para reparaciones grandes.',col:'#9DB0BE'}
+    {nm:'Tu ganancia neta',sub:'Lo que te queda al año después de todos los gastos.',col:'#C9973A',dark:'#7A560F'},
+    {nm:'Impuestos, seguro y HOA',sub:'Impuestos de propiedad, seguro del arrendador y cuota de la comunidad, si hay.',col:'#0C2C42',dark:'#04121B'},
+    {nm:'Administración y mantenimiento',sub:'Quien administra la propiedad y las reparaciones normales.',col:'#A0522D',dark:'#5E2C14'},
+    {nm:'Meses sin inquilino y reserva',sub:'Meses vacíos entre inquilinos y ahorro para reparaciones grandes.',col:'#9DB0BE',dark:'#60758A'}
   ];
 
   /* number tween */
@@ -685,10 +697,16 @@
 
   /* property cards */
   function legendHTML(){return SEG.map(function(s,i){return '<li class="lg" data-i="'+i+'" tabindex="0"><i style="background:'+s.col+'"></i><span class="nm">'+s.nm+'</span><span class="am"></span><span class="pc"></span><span class="sub">'+s.sub+'</span></li>';}).join('');}
+  function ringSVG(top){
+    var cs=top?'<circle class="track" cx="70" cy="70" r="'+R+'"></circle>':'';
+    SEG.forEach(function(sg,i){cs+='<circle class="seg" data-i="'+i+'" cx="70" cy="70" r="'+R+'" stroke="'+(top?'url(#dg'+i+')':sg.dark)+'" style="stroke-dasharray:0 '+C+';transform-origin:70px 70px;transform:rotate(-90deg)"></circle>';});
+    if(top)cs+='<circle class="gloss" cx="70" cy="70" r="'+R+'" stroke="url(#dgl)" style="transform-origin:70px 70px;transform:rotate(-90deg)"></circle>';
+    return '<svg viewBox="0 0 140 140" aria-hidden="true">'+cs+'</svg>';
+  }
   function donutHTML(){
-    var cs='<circle class="track" cx="70" cy="70" r="'+R+'"></circle>';
-    SEG.forEach(function(s,i){cs+='<circle class="seg" data-i="'+i+'" cx="70" cy="70" r="'+R+'" stroke="'+s.col+'" transform="rotate(-90 70 70)" style="stroke-dasharray:0 '+C+'"></circle>';});
-    return '<div class="donutwrap"><svg class="donut" viewBox="0 0 140 140" role="img" aria-label="Gráfica de a dónde va la renta">'+cs+'</svg><div class="center"><strong class="js-ret">0.0%</strong><span>retorno neto<br>al año</span></div></div>';
+    var d='';
+    for(var k=14;k>=1;k--)d+='<div class="layer" style="transform:translateZ(-'+k+'px)">'+ringSVG(false)+'</div>';
+    return '<div class="donutwrap" role="img" aria-label="Gráfica 3D de a dónde va la renta"><div class="shadow"></div><div class="tilt">'+d+'<div class="layer top">'+ringSVG(true)+'</div></div><div class="center"><strong class="js-ret">0.0%</strong><span>retorno neto<br>al año</span></div></div>';
   }
   var io=null;
   function observe(){
@@ -751,13 +769,14 @@
     var card=document.querySelector('.prop[data-p="'+p.id+'"]'); if(!card)return;
     var c=calc(p), a=state.assume, seen=card.classList.contains('seen');
     var total=c.parts.reduce(function(s,v){return s+v;},0), off=0;
-    var segs=card.querySelectorAll('.seg');
+    var segs=card.querySelectorAll('.seg'), geo=[], fr=0;
     c.parts.forEach(function(v,i){
       var len=seen&&total>0?v/total*C:0, draw=len>4?len-2:len;
-      segs[i].style.strokeDasharray=draw+' '+(C-draw);
-      segs[i].style.strokeDashoffset=-(off+(len>4?1:0));
+      geo.push([draw+' '+(C-draw),-(off+(len>4?1:0))]);
       off+=len;
+      var f=total>0?v/total:0; card._mid=card._mid||[]; card._mid[i]=fr+f/2; fr+=f;
     });
+    [].forEach.call(segs,function(sg){var g=geo[+sg.getAttribute('data-i')];sg.style.strokeDasharray=g[0];sg.style.strokeDashoffset=g[1];});
     var lgs=card.querySelectorAll('.lg');
     c.parts.forEach(function(v,i){
       var per=c.gross>0?v/c.gross*100:0;
@@ -882,7 +901,15 @@
     var card=t.closest('.prop'),i=t.getAttribute('data-i');
     setHL(card,card.getAttribute('data-hl')===i?null:i);
   });
+  function pop(card,i){
+    [].forEach.call(card.querySelectorAll('.layer .seg'),function(sg){
+      var on=i!==null&&i!==undefined&&sg.getAttribute('data-i')===String(i), t='rotate(-90deg)';
+      if(on&&card._mid){var th=card._mid[+i]*2*Math.PI-Math.PI/2;t='translate('+(Math.cos(th)*7).toFixed(2)+'px,'+(Math.sin(th)*7).toFixed(2)+'px) rotate(-90deg)';}
+      sg.style.transform=t;
+    });
+  }
   function setHL(card,i){
+    pop(card,i);
     var lgs=card.querySelectorAll('.lg');
     if(i===null||i===undefined){card.removeAttribute('data-hl');lgs.forEach(function(l){l.classList.remove('on');});return;}
     card.setAttribute('data-hl',i);
