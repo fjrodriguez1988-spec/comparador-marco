@@ -706,13 +706,13 @@
     selPin=withGeo[0].id; drawChips(); showPin(selPin,true);
   }
   function drawChips(){
-    $('mchips').innerHTML=PROPS.filter(function(p){return p.lat!=null;}).map(function(p){return '<button type="button" data-pin="'+p.id+'"'+(p.id===selPin?' class="on"':'')+'>'+p.city.split(',')[0]+'<b>'+pct(calc(p).ret)+'</b></button>';}).join('');
+    $('mchips').innerHTML=PROPS.filter(function(p){return p.lat!=null;}).map(function(p){return '<button type="button" data-pin="'+p.id+'"'+(p.id===selPin?' class="on"':'')+'>'+p.name+'<b>'+pct(calc(p).ret)+'</b></button>';}).join('');
   }
   function updateMap(){if(selPin){drawChips();infoFor(selPin);}}
   function infoFor(id){
     var p=PROPS.filter(function(x){return x.id===id;})[0]; if(!p)return;
     var c=calc(p),d=miles(HUB.lat,HUB.lon,p.lat,p.lon),a=addrOf(p);
-    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</small></div>'
+    $('mapinfo').innerHTML='<div><b>Piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta</small></div>'
       +'<span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="https://www.google.com/maps/search/?api=1&query='+a+'" target="_blank" rel="noopener">Abrir en Google Maps</a><a class="btn" href="'+p.link+'" target="_blank" rel="noopener" style="background:rgba(255,255,255,.14)">Ver las fotos</a><button class="btn" type="button" data-go="'+id+'" style="background:rgba(255,255,255,.14)">Ver los números</button></span>';
   }
   function showPin(id,first){
