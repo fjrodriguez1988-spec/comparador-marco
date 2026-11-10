@@ -69,6 +69,6 @@ window.PROPS = [
       {k:'custom',label:'Otra renta (la escribo yo)',v:1800}
     ],
     rentNote:'Es una sola unidad. El anuncio indica que no está rentada.',
-    cardNote:'Las fotos del anuncio muestran una casa limpia, con piso vinílico, cocina con granito y electrodomésticos de acero inoxidable. Confirma con la HOA de East River que se permiten rentas a largo plazo y el costo exacto de la cuota. Confirma el estado en persona.'
+    cardNote:'Las fotos del anuncio muestran una casa limpia, con piso vinílico, cocina con granito y electrodomésticos de acero inoxidable. Reglas de la HOA de East River: según los convenios del anuncio (copia parcial), la HOA no puede prohibir rentar la casa; solo puede exigir un contrato mínimo de hasta 6 meses y su formato de contrato, sin cobrar cuota por el contrato. Por lo tanto, la renta a largo plazo está permitida. NO sabemos si se permiten rentas a corto plazo (como Airbnb) ni a mediano plazo (contratos de 1 a 6 meses), porque las reglas de uso (Exhibit C) no estaban en los documentos. Confirma esto y el costo exacto de la cuota con la HOA (919-332-4680). Confirma el estado en persona.'
   }
 ];
