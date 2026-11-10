@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comparador de Inversión para Marco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --navy:#14283C;
+    --paper:#FFFFFF;
+    --cream:#F6F7F5;
+    --line:#E3E7E9;
+    --ink:#14283C;
+    --ink-soft:#5B6B78;
+    --ink-faint:#8B99A3;
+    --good:#2F7A52;
+    --good-bg:#E7F3EC;
+    --warn:#B45309;
+    --warn-bg:#FDF3E7;
+    --gold:#9A6F12;
+    --gold-bg:#F7EDD2;
+    --field:#F2F4F5;
+    --shadow:0 1px 2px rgba(20,40,60,.06),0 8px 24px rgba(20,40,60,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#121A24; --cream:#0D141C; --line:#25313E; --ink:#EDF1F4; --ink-soft:#9FB0BC; --ink-faint:#6E7E8A;
+      --good:#5FD394; --good-bg:#12291D; --warn:#F0B45F; --warn-bg:#2B2211; --gold:#E2B861; --gold-bg:#2E2711;
+      --field:#1A2531; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.4); color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#121A24; --cream:#0D141C; --line:#25313E; --ink:#EDF1F4; --ink-soft:#9FB0BC; --ink-faint:#6E7E8A;
+    --good:#5FD394; --good-bg:#12291D; --warn:#F0B45F; --warn-bg:#2B2211; --gold:#E2B861; --gold-bg:#2E2711;
+    --field:#1A2531; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.4); color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Poppins',Arial,sans-serif;margin:0;text-wrap:balance}
+  a{color:inherit}
+  button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+  .app{max-width:760px;margin:0 auto;background:var(--paper);box-shadow:var(--shadow);min-height:100vh;padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
+  header{background:var(--navy);color:#fff;padding:calc(22px + env(safe-area-inset-top,0px)) 20px 20px}
+  .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#AEBBC6;font-weight:600}
+  header h1{font-size:24px;font-weight:700;margin-top:4px}
+  header p{margin:6px 0 0;color:#C7D2DA;font-size:14px;max-width:56ch}
+  section{padding:22px 20px 4px}
+  h2{font-size:18px;font-weight:600;margin-bottom:4px}
+  .hint{color:var(--ink-soft);font-size:13px;margin:0 0 14px}
+  .callout{border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.5;margin:0 0 14px}
+  .callout.gold{background:var(--gold-bg);color:var(--ink)}
+  .callout.warn{background:var(--warn-bg);color:var(--ink)}
+  .callout b{font-weight:600}
+  .grid{display:grid;gap:12px;align-items:end}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media (max-width:560px){.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  label.f{display:block;min-width:0}
+  label.f>span{display:block;font-size:12px;color:var(--ink-soft);font-weight:500;margin-bottom:4px}
+  .inp{display:flex;align-items:center;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:0 10px;min-width:0}
+  .inp:focus-within{outline:2px solid var(--navy);outline-offset:1px}
+  :root[data-theme="dark"] .inp:focus-within{outline-color:#EDF1F4}
+  .inp input{flex:1;min-width:0;width:100%;border:0;background:transparent;padding:10px 0;outline:0;font-variant-numeric:tabular-nums}
+  .inp i{font-style:normal;color:var(--ink-soft);font-size:13px;padding:0 2px}
+  select{width:100%;background:var(--field);border:1px solid var(--line);border-radius:8px;padding:10px;min-width:0}
+  .compare{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ct{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr)}
+  .ct>div{padding:10px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;min-width:0}
+  .ct>div:nth-child(3n+2),.ct>div:nth-child(3n+3){text-align:right}
+  .ct .h{font-size:12px;font-weight:600;color:var(--ink-soft);background:var(--field);text-transform:uppercase;letter-spacing:.04em}
+  .ct .lbl{color:var(--ink-soft);font-size:13px}
+  .ct .big{font-family:'Poppins',Arial,sans-serif;font-size:26px;font-weight:700;line-height:1.1}
+  .ct .last{border-bottom:0}
+  .ct .win{background:var(--good-bg)}
+  .pill{display:inline-block;margin-top:4px;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
+  .pill.ok{background:var(--good-bg);color:var(--good)}
+  .pill.no{background:var(--warn-bg);color:var(--warn)}
+  .win .pill.ok{background:var(--paper)}
+  .prop{border:1px solid var(--line);border-radius:12px;padding:18px;margin:0 0 16px}
+  .prop h3{font-size:18px;font-weight:600}
+  .addr{color:var(--ink-soft);font-size:13px;margin:2px 0 10px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+  .tag{font-size:12px;background:var(--field);border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--ink-soft)}
+  .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:10px 16px;border-radius:8px}
+  .btn:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .src{font-size:12px;color:var(--ink-soft);margin:6px 0 0}
+  .src b{font-weight:600;color:var(--ink)}
+  table.bd{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px;font-variant-numeric:tabular-nums}
+  table.bd td{padding:6px 0;border-bottom:1px solid var(--line)}
+  table.bd td:last-child{text-align:right}
+  table.bd tr.t td{font-weight:600;border-bottom:0;padding-top:10px}
+  table.bd tr.sub td{color:var(--ink-soft)}
+  .meter{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+  .meter>div{flex:1 1 150px;background:var(--field);border-radius:10px;padding:10px 12px}
+  .meter small{display:block;color:var(--ink-soft);font-size:12px}
+  .meter strong{font-family:'Poppins',Arial,sans-serif;font-size:18px}
+  .foot{padding:8px 20px 0;color:var(--ink-soft);font-size:12px}
+  .foot p{margin:0 0 10px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .center{text-align:center}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="eyebrow">El Dorado Home Group &middot; Keller Williams Realty Cary</div>
+    <h1>Comparador de Inversión para Marco</h1>
+    <p>Compara dos dúplex lado a lado y calcula tu retorno neto con tus propios porcentajes. Compra de contado, sin hipoteca.</p>
+  </header>
+
+  <section>
+    <h2>Tus supuestos</h2>
+    <p class="hint">Ya vienen llenos con los valores que usamos en nuestro análisis. Cámbialos y todo se recalcula al instante.</p>
+    <div class="callout gold">
+      <b>Importante:</b> estos porcentajes son valores de referencia. Cada inversionista maneja su negocio de forma distinta, por ejemplo si administra la propiedad por su cuenta o si pone más o menos reserva para reparaciones. Te invitamos a jugar con los números para ver cómo cambia tu retorno.
+    </div>
+    <div class="grid g3">
+      <label class="f"><span>Administración de la propiedad</span><div class="inp"><input id="a_mgmt" type="number" inputmode="decimal" step="0.5" min="0" max="50"><i>%</i></div></label>
+      <label class="f"><span>Mantenimiento y reparaciones</span><div class="inp"><input id="a_maint" type="number" inputmode="decimal" step="0.5" min="0" max="50"><i>%</i></div></label>
+      <label class="f"><span>Vacancia (meses sin inquilino)</span><div class="inp"><input id="a_vac" type="number" inputmode="decimal" step="0.5" min="0" max="50"><i>%</i></div></label>
+      <label class="f"><span>Reserva para grandes reparaciones (techo, aire, etc.)</span><div class="inp"><input id="a_capex" type="number" inputmode="decimal" step="0.5" min="0" max="50"><i>%</i></div></label>
+      <label class="f"><span>Costos de cierre (estimado)</span><div class="inp"><input id="a_close" type="number" inputmode="decimal" step="0.5" min="0" max="10"><i>%</i></div></label>
+      <label class="f"><span>Tu meta de retorno neto</span><div class="inp"><input id="a_goal" type="number" inputmode="decimal" step="0.5" min="0" max="30"><i>%</i></div></label>
+    </div>
+    <p class="src">Los porcentajes de administración, mantenimiento, vacancia y reserva se calculan sobre la renta bruta anual.</p>
+    <div class="row"><button class="btn ghost" id="reset" type="button">Restablecer valores originales</button></div>
+  </section>
+
+  <section>
+    <h2>¿Cuál sería mi retorno?</h2>
+    <p class="hint">Retorno neto = ingreso anual después de todos los gastos, entre el total que pones en efectivo (precio más costos de cierre).</p>
+    <div class="compare"><div class="ct" id="cmp"></div></div>
+  </section>
+
+  <section>
+    <h2>Las propiedades</h2>
+    <p class="hint">Puedes ajustar el precio de oferta, la renta, los impuestos y el seguro de cada una.</p>
+    <div id="props"></div>
+  </section>
+
+  <div class="foot">
+    <p><b>Renta:</b> proviene de Rentometer. Usamos la mediana de las rentas de propiedades similares cercanas, de los últimos 12 meses. La mediana es el punto medio: la mitad de las rentas comparables está por encima y la otra mitad por debajo. Es una referencia de mercado, no una garantía de lo que se va a rentar.</p>
+    <p><b>Impuestos:</b> son los impuestos reales del último año registrado en el MLS (año fiscal 2025). Son datos históricos y pueden cambiar cuando el condado vuelva a evaluar la propiedad.</p>
+    <p><b>Seguro:</b> es un estimado para una póliza de arrendador. Te recomendamos pedir cotizaciones reales a un agente de seguros, porque el precio varía según la propiedad, el techo, la zona y tu historial.</p>
+    <p><b>Aviso:</b> esta herramienta es solo informativa y no es asesoría financiera, legal ni fiscal. Los datos son del 10 de noviembre de 2026 y el precio o estado de un anuncio puede cambiar. Verifica los datos de cada propiedad antes de tomar una decisión.</p>
+    <p class="center">Francisco Rodriguez y Maria Rodriguez<br>El Dorado Home Group &middot; Keller Williams Realty Cary</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var DEF = {assume:{mgmt:10,maint:8,vac:6,capex:0,close:2.5,goal:7}};
+  var PROPS = [
+    {
+      id:'granby', name:'1214 Granby Street', city:'Durham, NC 27701',
+      link:'https://www.flexmls.com/share/Epl5F/1214-Granby-Street-Durham-NC-27701',
+      price:400000, orig:415000, dom:60,
+      tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado'],
+      tax:4554, taxNote:'Impuestos del año fiscal 2025 (valor tasado $459,420).',
+      ins:3100,
+      rentSrc:'Rentometer, mediana de 29 propiedades similares de 3 recámaras en un radio de 0.75 millas. Promedio reportado: $2,186 por unidad. Rango de la mitad central: $1,841 a $2,530.',
+      rents:[
+        {k:'median',label:'Mediana de mercado (Rentometer)',v:4000},
+        {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:3682},
+        {k:'p75',label:'Mercado alto, percentil 75 (Rentometer)',v:5060},
+        {k:'actual',label:'Rentas actuales con contrato vigente',v:2309},
+        {k:'custom',label:'Otra renta (la escribo yo)',v:4000}
+      ],
+      rentNote:'Hoy las dos unidades rentan por $1,059 y $1,250 al mes. Según el anuncio, los contratos terminan el 30 de abril de 2027, y desde entonces se podría rentar a precio de mercado. Elige el escenario de rentas actuales para ver el retorno de hoy.',
+      cardNote:'Confirma con un abogado la situación de los inquilinos y el plan para el fin de los contratos.'
+    },
+    {
+      id:'sellers', name:'215 N Sellers Street', city:'Selma, NC 27576',
+      link:'https://www.flexmls.com/share/Epl6R/215-N-Sellers-Street-Selma-NC-27576',
+      price:439500, orig:449000, dom:155,
+      tags:['Construida en 2022','Dúplex lado a lado','2 unidades de 3 recámaras y 2.5 baños','Aprox. 1,255 pies² por unidad','Sin HOA','155 días en el mercado'],
+      tax:3940, taxNote:'Impuestos del año fiscal 2025 (valor tasado $351,820).',
+      ins:2800,
+      rentSrc:'Rentometer, mediana de 13 propiedades similares de 3 recámaras en un radio de 5 millas. Promedio reportado: $1,719 por unidad. Rango de la mitad central: $1,580 a $1,857.',
+      rents:[
+        {k:'median',label:'Mediana de mercado (Rentometer)',v:3590},
+        {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:3160},
+        {k:'p75',label:'Mercado alto, percentil 75 (Rentometer)',v:3714},
+        {k:'custom',label:'Otra renta (la escribo yo)',v:3590}
+      ],
+      rentNote:'El anuncio indica que ambas unidades están rentadas hasta el 1 de enero de 2027, pero no publica la renta actual. Pídela al agente de la propiedad.',
+      cardNote:'El vendedor tiene más edificios iguales en la misma calle. Comprar más de uno puede abrir la puerta a un mejor precio. Las fotos del anuncio tienen decoración virtual.'
+    }
+  ];
+  var KEY='comparador-inversion-v1';
+  var state={assume:clone(DEF.assume),props:{}};
+  PROPS.forEach(function(p){state.props[p.id]={disc:0,rent:'median',custom:p.rents[0].v,tax:p.tax,ins:p.ins,price:p.price};});
+  try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.assume&&s.props){state=merge(state,s);}}catch(e){}
+  function clone(o){return JSON.parse(JSON.stringify(o));}
+  function merge(a,b){for(var k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k]){a[k]=merge(a[k],b[k]);}else{a[k]=b[k];}}return a;}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+  var $=function(id){return document.getElementById(id);};
+  var fmt=function(n){return (n<0?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US');};
+  var pct=function(n){return (n*100).toFixed(1)+'%';};
+  var num=function(v,d){var x=parseFloat(v);return isFinite(x)?x:d;};
+
+  function calc(p){
+    var st=state.props[p.id],a=state.assume;
+    var offer=st.price*(1-st.disc/100);
+    var rentM; var opt=p.rents.filter(function(r){return r.k===st.rent;})[0];
+    rentM=st.rent==='custom'?num(st.custom,0):opt.v;
+    var gross=rentM*12;
+    var mg=gross*a.mgmt/100, mt=gross*a.maint/100, vc=gross*a.vac/100, cx=gross*a.capex/100;
+    var tax=num(st.tax,0), ins=num(st.ins,0);
+    var noi=gross-mg-mt-vc-cx-tax-ins;
+    var cash=offer*(1+a.close/100);
+    var ret=cash>0?noi/cash:0;
+    var costPct=(a.mgmt+a.maint+a.vac+a.capex)/100;
+    var goal=a.goal/100;
+    var maxPrice=(gross*(1-costPct)-tax-ins)/(goal*(1+a.close/100));
+    var needRent=(goal*cash+tax+ins)/(12*(1-costPct));
+    return {offer:offer,rentM:rentM,gross:gross,mg:mg,mt:mt,vc:vc,cx:cx,tax:tax,ins:ins,noi:noi,cash:cash,ret:ret,maxPrice:maxPrice,needRent:needRent,goal:goal};
+  }
+
+  function renderAssume(){
+    var m={a_mgmt:'mgmt',a_maint:'maint',a_vac:'vac',a_capex:'capex',a_close:'close',a_goal:'goal'};
+    for(var id in m){$(id).value=state.assume[m[id]];}
+  }
+  function renderCompare(){
+    var r=PROPS.map(calc);
+    var best=r[0].ret>=r[1].ret?0:1;
+    var h='';
+    h+='<div class="h"></div>'+PROPS.map(function(p){return '<div class="h">'+p.name.replace(' Street','')+'<br><span style="font-weight:500;text-transform:none;letter-spacing:0">'+p.city.split(',')[0]+'</span></div>';}).join('');
+    function row(label,vals,cls,last){
+      h+='<div class="lbl'+(last?' last':'')+'">'+label+'</div>'+vals.map(function(v,i){return '<div class="'+(cls||'')+(last?' last':'')+(i===best&&cls==='big'?' win':'')+'">'+v+'</div>';}).join('');
+    }
+    row('Precio de oferta',r.map(function(x){return fmt(x.offer);}));
+    row('Renta mensual (2 unidades)',r.map(function(x){return fmt(x.rentM);}));
+    row('Ingreso neto al año',r.map(function(x){return fmt(x.noi);}));
+    row('Ingreso neto al mes',r.map(function(x){return fmt(x.noi/12);}));
+    row('Efectivo total que pones',r.map(function(x){return fmt(x.cash);}));
+    row('Retorno neto',r.map(function(x){return '<span>'+pct(x.ret)+'</span><br><span class="pill '+(x.ret>=x.goal?'ok':'no')+'">'+(x.ret>=x.goal?'Cumple tu meta':'Debajo de tu meta')+'</span>';}),'big');
+    row('Precio máximo para tu meta',r.map(function(x){return x.maxPrice>0?fmt(x.maxPrice):'No aplica';}),'',true);
+    $('cmp').innerHTML=h;
+  }
+  function renderProps(){
+    var out='';
+    PROPS.forEach(function(p){
+      var st=state.props[p.id],c=calc(p);
+      var opts=p.rents.map(function(r){return '<option value="'+r.k+'"'+(st.rent===r.k?' selected':'')+'>'+r.label+(r.k==='custom'?'':' : '+fmt(r.v)+' al mes')+'</option>';}).join('');
+      out+='<article class="prop" data-p="'+p.id+'">'
+        +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' &middot; Precio de lista '+fmt(p.price)+(p.orig>p.price?' (antes '+fmt(p.orig)+')':'')+'</div>'
+        +'<div class="tags">'+p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>'
+        +'<a class="btn" href="'+p.link+'" target="_blank" rel="noopener">Ver la propiedad en Doorify</a>'
+        +'<p class="src" style="margin-top:8px">'+p.link+'</p>'
+        +'<div class="grid g2" style="margin-top:14px">'
+        +'<label class="f"><span>Descuento sobre el precio de lista</span><div class="inp"><input data-k="disc" type="number" inputmode="decimal" step="1" min="0" max="50" value="'+st.disc+'"><i>%</i></div></label>'
+        +'<label class="f"><span>Tu precio de oferta</span><div class="inp"><i>$</i><input disabled value="'+Math.round(c.offer).toLocaleString('en-US')+'"></div></label>'
+        +'<label class="f" style="grid-column:1/-1"><span>Escenario de renta (ambas unidades)</span><select data-k="rent">'+opts+'</select></label>'
+        +(st.rent==='custom'?'<label class="f"><span>Renta mensual total</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
+        +'<label class="f"><span>Impuestos al año</span><div class="inp"><i>$</i><input data-k="tax" type="number" inputmode="decimal" step="50" min="0" value="'+st.tax+'"></div></label>'
+        +'<label class="f"><span>Seguro al año (estimado)</span><div class="inp"><i>$</i><input data-k="ins" type="number" inputmode="decimal" step="50" min="0" value="'+st.ins+'"></div></label>'
+        +'</div>'
+        +'<p class="src"><b>Renta:</b> '+p.rentSrc+'</p>'
+        +'<p class="src">'+p.rentNote+'</p>'
+        +'<p class="src"><b>Impuestos:</b> '+p.taxNote+' Son datos históricos y pueden cambiar.</p>'
+        +'<p class="src"><b>Seguro:</b> estimado. Pide cotizaciones reales a un agente de seguros.</p>'
+        +'<table class="bd">'
+        +'<tr><td>Renta bruta al año</td><td>'+fmt(c.gross)+'</td></tr>'
+        +'<tr class="sub"><td>Administración ('+state.assume.mgmt+'%)</td><td>'+fmt(-c.mg)+'</td></tr>'
+        +'<tr class="sub"><td>Mantenimiento ('+state.assume.maint+'%)</td><td>'+fmt(-c.mt)+'</td></tr>'
+        +'<tr class="sub"><td>Vacancia ('+state.assume.vac+'%)</td><td>'+fmt(-c.vc)+'</td></tr>'
+        +'<tr class="sub"><td>Reserva grandes reparaciones ('+state.assume.capex+'%)</td><td>'+fmt(-c.cx)+'</td></tr>'
+        +'<tr class="sub"><td>Impuestos</td><td>'+fmt(-c.tax)+'</td></tr>'
+        +'<tr class="sub"><td>Seguro</td><td>'+fmt(-c.ins)+'</td></tr>'
+        +'<tr class="t"><td>Ingreso neto al año</td><td>'+fmt(c.noi)+'</td></tr>'
+        +'</table>'
+        +'<div class="meter">'
+        +'<div><small>Retorno neto</small><strong>'+pct(c.ret)+'</strong></div>'
+        +'<div><small>Renta mensual para llegar a tu meta</small><strong>'+fmt(c.needRent)+'</strong></div>'
+        +'<div><small>Precio máximo para tu meta</small><strong>'+(c.maxPrice>0?fmt(c.maxPrice):'No aplica')+'</strong></div>'
+        +'</div>'
+        +'<p class="src" style="margin-top:12px">'+p.cardNote+'</p>'
+        +'</article>';
+    });
+    $('props').innerHTML=out;
+  }
+  function renderAll(){renderCompare();renderProps();}
+
+  // global assumptions
+  var map={a_mgmt:'mgmt',a_maint:'maint',a_vac:'vac',a_capex:'capex',a_close:'close',a_goal:'goal'};
+  Object.keys(map).forEach(function(id){
+    $(id).addEventListener('input',function(){state.assume[map[id]]=num(this.value,0);save();renderAll();});
+  });
+  $('reset').addEventListener('click',function(){
+    state.assume=clone(DEF.assume);
+    PROPS.forEach(function(p){state.props[p.id]={disc:0,rent:'median',custom:p.rents[0].v,tax:p.tax,ins:p.ins,price:p.price};});
+    save();renderAssume();renderAll();
+  });
+  // per property edits (delegated; re-render keeps focus by only refreshing outputs when typing)
+  $('props').addEventListener('input',function(e){
+    var t=e.target,k=t.getAttribute('data-k'); if(!k)return;
+    var id=t.closest('.prop').getAttribute('data-p');
+    var st=state.props[id];
+    if(k==='rent'){st.rent=t.value;save();renderAll();return;}
+    st[k]=num(t.value,0);save();
+    // update outputs without rebuilding inputs so the cursor stays put
+    renderCompare();
+    PROPS.forEach(function(p){
+      var card=document.querySelector('.prop[data-p="'+p.id+'"]'),c=calc(p);
+      var strongs=card.querySelectorAll('.meter strong');
+      strongs[0].textContent=pct(c.ret);strongs[1].textContent=fmt(c.needRent);strongs[2].textContent=c.maxPrice>0?fmt(c.maxPrice):'No aplica';
+      var tds=card.querySelectorAll('table.bd td:last-child');
+      var vals=[c.gross,-c.mg,-c.mt,-c.vc,-c.cx,-c.tax,-c.ins,c.noi];
+      vals.forEach(function(v,i){tds[i].textContent=fmt(v);});
+      var dis=card.querySelector('input[disabled]'); if(dis)dis.value=Math.round(c.offer).toLocaleString('en-US');
+    });
+  });
+  renderAssume();renderAll();
+})();
+</script>
+</body>
+</html>
