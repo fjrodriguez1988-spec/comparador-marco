@@ -69,6 +69,12 @@
   .nav a{flex:0 0 auto;text-decoration:none;font-size:13px;font-weight:600;padding:6px 13px;border-radius:99px;color:var(--soft);transition:background .2s,color .2s}
   .nav a:hover,.nav a.on{background:var(--navy);color:#fff}
   .nav .sp{flex:1}
+  .langsw{display:inline-flex;background:rgba(12,44,66,.08);border-radius:99px;padding:3px;gap:2px;flex:0 0 auto}
+  .langsw button{border:0;background:transparent;border-radius:99px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--soft);font-family:'Poppins',Arial,sans-serif;letter-spacing:.04em}
+  .langsw button.on{background:var(--navy);color:#fff}
+  .hero .langsw{background:rgba(255,255,255,.12)}
+  .hero .langsw button{color:#D5DEE5}
+  .hero .langsw button.on{background:var(--gold);color:var(--navy)}
   .nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--paper);border-radius:99px;font-size:13px;font-weight:600;padding:6px 14px;cursor:pointer}
 
   /* steps + estimates */
@@ -367,7 +373,7 @@
   <div class="wrap">
     <div class="brandbar">
       <img class="eld" src="assets/eldorado-logo.png" alt="El Dorado Home Group">
-      <div class="kwchip"><img src="assets/kw-cary.png" alt="Keller Williams Realty Cary"></div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div class="langsw" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" class="on">ES</button><button type="button" data-lang="en">EN</button></div><div class="kwchip"><img src="assets/kw-cary.png" alt="Keller Williams Realty Cary"></div></div>
     </div>
     <div class="who">
       <div class="txt">
@@ -391,7 +397,7 @@
 
 <nav class="nav" aria-label="Secciones"><div class="wrap">
   <a href="#resumen">Resumen</a><a href="#mapa">Mapa</a><a href="#propiedades">Propiedades</a><a href="#portafolio">Mi portafolio</a><a href="#glosario">Glosario</a><a href="#contacto">Contacto</a>
-  <span class="sp"></span><button type="button" id="print">Guardar PDF</button>
+  <span class="sp"></span><div class="langsw" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" class="on">ES</button><button type="button" data-lang="en">EN</button></div><button type="button" id="print">Guardar PDF</button>
 </div></nav>
 
 <main class="wrap">
@@ -567,6 +573,7 @@
   </div>
 </div>
 
+<script src="i18n.js"></script>
 <script src="properties.js"></script>
 <script>
 (function(){
@@ -585,6 +592,12 @@
   var fmt=function(n){return (n<0?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US');};
   var pct=function(n){return (n*100).toFixed(1)+'%';};
   var num=function(v,d){var x=parseFloat(v);return isFinite(x)?x:d;};
+  /* idioma: español por defecto, inglés con el botón EN o ?lang=en */
+  var EN=window.I18N_EN||{}, LANG='es';
+  try{var qs=new URLSearchParams(location.search).get('lang'),sv=localStorage.getItem('comparador-lang');LANG=(qs==='en'||qs==='es')?qs:(sv==='en'?'en':'es');}catch(e){}
+  function tx(k,v){var x=(LANG==='en'&&EN[k]!=null)?EN[k]:k;if(v){for(var n in v)x=x.split('{'+n+'}').join(v[n]);}return x;}
+  function pf(p,f){return (LANG==='en'&&p.en&&p.en[f]!=null)?p.en[f]:p[f];}
+  function pl(p,r){return (LANG==='en'&&p.en&&p.en.rents&&p.en.rents[r.k])||r.label;}
   var R=52, C=2*Math.PI*R;
   var SEG=[
     {nm:'Tu ganancia neta',sub:'Lo que te queda al año después de todos los gastos.',col:'#C9973A',dark:'#7A560F'},
@@ -629,7 +642,7 @@
   }
   function renderChips(){
     var a=state.assume;
-    $('chips').innerHTML='<span class="chip">Admin <b>'+a.mgmt+'%</b></span><span class="chip">Mant. <b>'+a.maint+'%</b></span><span class="chip">Vacancia <b>'+a.vac+'%</b></span><span class="chip">Meta <b>'+a.goal+'%</b></span>';
+    $('chips').innerHTML='<span class="chip">'+tx('Admin')+' <b>'+a.mgmt+'%</b></span><span class="chip">'+tx('Mant.')+' <b>'+a.maint+'%</b></span><span class="chip">'+tx('Vacancia')+' <b>'+a.vac+'%</b></span><span class="chip">'+tx('Meta')+' <b>'+a.goal+'%</b></span>';
   }
 
   /* hero stats */
@@ -667,18 +680,18 @@
       var f=b.querySelector('.fill');f.className='fill'+(ok?' ok':'');f.style.width=Math.max(0,Math.min(100,x.ret/scale*100))+'%';
       var bd=b.querySelector('.band');bd.style.left=Math.max(0,lo[i]/scale*100)+'%';bd.style.width=Math.max(0.5,(hi[i]-Math.max(lo[i],0))/scale*100)+'%';
       b.querySelector('.goalline').style.left=Math.min(100,goal/scale*100)+'%';
-      b.querySelector('.tag2').textContent=(ok?'Cumple tu meta de '+state.assume.goal+'%':'Debajo de tu meta de '+state.assume.goal+'%')+' · Con rentas de bajas a altas: '+pct(lo[i])+' a '+pct(hi[i]);
+      b.querySelector('.tag2').textContent=(ok?tx('Cumple tu meta de {n}%',{n:state.assume.goal}):tx('Debajo de tu meta de {n}%',{n:state.assume.goal}))+' · '+tx('Con rentas de bajas a altas: {a} a {b}',{a:pct(lo[i]),b:pct(hi[i])});
     });
     $('cmp').style.setProperty('--n',n);
     $('hint2').hidden=n<3;
-    var h='<div class="h first"></div>'+PROPS.map(function(p){return '<div class="h c">'+p.name.replace(' Street','').replace(' Drive','')+'<br><span style="font-weight:500">'+p.city.split(',')[0]+(p.kind?' · '+p.kind:'')+'</span></div>';}).join('');
+    var h='<div class="h first"></div>'+PROPS.map(function(p){return '<div class="h c">'+p.name.replace(' Street','').replace(' Drive','')+'<br><span style="font-weight:500">'+p.city.split(',')[0]+(pf(p,'kind')?' · '+pf(p,'kind'):'')+'</span></div>';}).join('');
     function row(label,vals,last){h+='<div class="lbl'+(last?' last':'')+'">'+label+'</div>'+vals.map(function(v){return '<div class="c'+(last?' last':'')+'">'+v+'</div>';}).join('');}
-    row('Precio que piden',PROPS.map(function(p){return fmt(p.price);}));
-    row('Tu precio de oferta',r.map(function(x){return fmt(x.offer);}));
-    row('Renta al mes',r.map(function(x){return fmt(x.rentM);}));
-    row('Ganancia al mes',r.map(function(x){return fmt(x.noi/12);}));
-    row('Efectivo que pones',r.map(function(x){return fmt(x.cash);}));
-    row('Fotos y detalles',PROPS.map(function(p){return '<a href="'+p.link+'" target="_blank" rel="noopener" style="font-weight:600;color:var(--gold-ink)">Ver fotos</a>';}),true);
+    row(tx('Precio que piden'),PROPS.map(function(p){return fmt(p.price);}));
+    row(tx('Tu precio de oferta'),r.map(function(x){return fmt(x.offer);}));
+    row(tx('Renta al mes'),r.map(function(x){return fmt(x.rentM);}));
+    row(tx('Ganancia al mes'),r.map(function(x){return fmt(x.noi/12);}));
+    row(tx('Efectivo que pones'),r.map(function(x){return fmt(x.cash);}));
+    row(tx('Fotos y detalles'),PROPS.map(function(p){return '<a href="'+p.link+'" target="_blank" rel="noopener" style="font-weight:600;color:var(--gold-ink)">'+tx('Ver fotos')+'</a>';}),true);
     $('cmp').innerHTML=h;
     // scenario button state
     var act=null;['p25','median','p75'].forEach(function(k){if(PROPS.every(function(p){return rentOf(p,k)==null||state.props[p.id].rent===k;}))act=act||k;});
@@ -694,17 +707,19 @@
   function addrOf(p){return encodeURIComponent(p.name+', '+p.city);}
   function frameSrc(p,mode){
     var a=addrOf(p);
-    if(mode==='region')return 'https://maps.google.com/maps?q='+p.lat+','+p.lon+'&z=9&output=embed';
-    if(mode==='street')return 'https://maps.google.com/maps?q=&layer=c&cbll='+p.lat+','+p.lon+'&cbp=12,0,0,0,0&output=svembed';
-    return 'https://maps.google.com/maps?q='+p.lat+','+p.lon+'&z=17'+(mode==='sat'?'&t=k':'')+'&output=embed';
+    var hl='&hl='+LANG;
+    if(mode==='region')return 'https://maps.google.com/maps?q='+p.lat+','+p.lon+'&z=9'+hl+'&output=embed';
+    if(mode==='street')return 'https://maps.google.com/maps?q=&layer=c&cbll='+p.lat+','+p.lon+'&cbp=12,0,0,0,0'+hl+'&output=svembed';
+    return 'https://maps.google.com/maps?q='+p.lat+','+p.lon+'&z=17'+(mode==='sat'?'&t=k':'')+hl+'&output=embed';
   }
   function buildMap(){
     var withGeo=PROPS.filter(function(p){return p.lat!=null;}); if(!withGeo.length)return;
-    $('mmodes').innerHTML=MODES.map(function(m){return '<button type="button" data-mode="'+m[0]+'">'+m[1]+'</button>';}).join('');
+    renderModes();
     $('mchips').addEventListener('click',function(e){var b=e.target.closest('[data-pin]');if(b)showPin(b.getAttribute('data-pin'));});
     $('mmodes').addEventListener('click',function(e){var b=e.target.closest('[data-mode]');if(b){mapMode=b.getAttribute('data-mode');showPin(selPin);}});
     selPin=withGeo[0].id; drawChips(); showPin(selPin,true);
   }
+  function renderModes(){$('mmodes').innerHTML=MODES.map(function(m){return '<button type="button" data-mode="'+m[0]+'"'+(m[0]===mapMode?' class="on"':'')+'>'+tx(m[1])+'</button>';}).join('');}
   function drawChips(){
     $('mchips').innerHTML=PROPS.filter(function(p){return p.lat!=null;}).map(function(p){return '<button type="button" data-pin="'+p.id+'"'+(p.id===selPin?' class="on"':'')+'>'+p.name+'<b>'+pct(calc(p).ret)+'</b></button>';}).join('');
   }
@@ -712,8 +727,8 @@
   function infoFor(id){
     var p=PROPS.filter(function(x){return x.id===id;})[0]; if(!p)return;
     var c=calc(p),d=miles(HUB.lat,HUB.lon,p.lat,p.lon),a=addrOf(p);
-    $('mapinfo').innerHTML='<div><b>Piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta</small></div>'
-      +'<span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="https://www.google.com/maps/search/?api=1&query='+a+'" target="_blank" rel="noopener">Abrir en Google Maps</a><a class="btn" href="'+p.link+'" target="_blank" rel="noopener" style="background:rgba(255,255,255,.14)">Ver las fotos</a><button class="btn" type="button" data-go="'+id+'" style="background:rgba(255,255,255,.14)">Ver los números</button></span>';
+    $('mapinfo').innerHTML='<div><b>'+tx('Piden {p} · retorno neto estimado {r}',{p:fmt(p.price),r:pct(c.ret)})+'</b><small>'+tx('Aprox. {n} millas de Raleigh en línea recta',{n:Math.round(d)})+'</small></div>'
+      +'<span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="https://www.google.com/maps/search/?api=1&hl='+LANG+'&query='+a+'" target="_blank" rel="noopener">'+tx('Abrir en Google Maps')+'</a><a class="btn" href="'+p.link+'" target="_blank" rel="noopener" style="background:rgba(255,255,255,.14)">'+tx('Ver las fotos')+'</a><button class="btn" type="button" data-go="'+id+'" style="background:rgba(255,255,255,.14)">'+tx('Ver los números')+'</button></span>';
   }
   function showPin(id,first){
     selPin=id;
@@ -731,7 +746,7 @@
   }
 
   /* property cards */
-  function legendHTML(){return SEG.map(function(s,i){return '<li class="lg" data-i="'+i+'" tabindex="0"><i style="background:'+s.col+'"></i><span class="nm">'+s.nm+'</span><span class="am"></span><span class="pc"></span><span class="sub">'+s.sub+'</span></li>';}).join('');}
+  function legendHTML(){return SEG.map(function(s,i){return '<li class="lg" data-i="'+i+'" tabindex="0"><i style="background:'+s.col+'"></i><span class="nm">'+tx(s.nm)+'</span><span class="am"></span><span class="pc"></span><span class="sub">'+tx(s.sub)+'</span></li>';}).join('');}
   function ringSVG(top){
     var cs=top?'<circle class="track" cx="70" cy="70" r="'+R+'"></circle>':'';
     SEG.forEach(function(sg,i){cs+='<circle class="seg" data-i="'+i+'" cx="70" cy="70" r="'+R+'" stroke="'+(top?'url(#dg'+i+')':sg.dark)+'" style="stroke-dasharray:0 '+C+';transform-origin:70px 70px;transform:rotate(-90deg)"></circle>';});
@@ -741,7 +756,7 @@
   function donutHTML(){
     var d='';
     for(var k=7;k>=1;k--)d+='<div class="layer" style="transform:translateZ(-'+k+'px)">'+ringSVG(false)+'</div>';
-    return '<div class="donutwrap" role="img" aria-label="Gráfica 3D de a dónde va la renta"><div class="shadow"></div><div class="tilt">'+d+'<div class="layer top">'+ringSVG(true)+'</div></div><div class="center"><strong class="js-ret">0.0%</strong><span>retorno neto<br>al año</span></div></div>';
+    return '<div class="donutwrap" role="img" aria-label="'+tx('Gráfica 3D de a dónde va la renta')+'"><div class="shadow"></div><div class="tilt">'+d+'<div class="layer top">'+ringSVG(true)+'</div></div><div class="center"><strong class="js-ret">0.0%</strong><span>'+tx('retorno neto')+'<br>'+tx('al año')+'</span></div></div>';
   }
   var io=null;
   function observe(){
@@ -759,39 +774,40 @@
     var out='';
     PROPS.forEach(function(p){
       var st=state.props[p.id];
-      var opts=p.rents.map(function(r){return '<option value="'+r.k+'"'+(st.rent===r.k?' selected':'')+'>'+r.label+(r.k==='custom'?'':' : '+fmt(r.v)+' al mes')+'</option>';}).join('');
+      var opts=p.rents.map(function(r){return '<option value="'+r.k+'"'+(st.rent===r.k?' selected':'')+'>'+pl(p,r)+(r.k==='custom'?'':tx(': {v} al mes',{v:fmt(r.v)}))+'</option>';}).join('');
+      var rn=pf(p,'rentNote'), cn=pf(p,'cardNote');
       out+='<article class="prop" data-p="'+p.id+'">'
-        +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' · Precio que piden '+fmt(p.price)+(p.orig>p.price?' (antes '+fmt(p.orig)+')':'')+' · Se puede negociar</div>'
-        +'<div class="tags">'+(p.kind?'<span class="tag k">'+p.kind+'</span>':'')+p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>'
-        +'<a class="btn gold" href="'+p.link+'" target="_blank" rel="noopener">Ver la propiedad y sus fotos</a>'
-        +'<div class="viz">'+donutHTML()+'<ul class="legend"><li class="ttl">A dónde va cada $100 de renta</li>'+legendHTML()+'</ul></div>'
+        +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' · '+tx('Precio que piden')+' '+fmt(p.price)+(p.orig>p.price?' ('+(LANG==='en'?'was':'antes')+' '+fmt(p.orig)+')':'')+tx(' · Se puede negociar')+'</div>'
+        +'<div class="tags">'+(pf(p,'kind')?'<span class="tag k">'+pf(p,'kind')+'</span>':'')+pf(p,'tags').map(function(x){return '<span class="tag">'+x+'</span>';}).join('')+'</div>'
+        +'<a class="btn gold" href="'+p.link+'" target="_blank" rel="noopener">'+tx('Ver la propiedad y sus fotos')+'</a>'
+        +'<div class="viz">'+donutHTML()+'<ul class="legend"><li class="ttl">'+tx('A dónde va cada $100 de renta')+'</li>'+legendHTML()+'</ul></div>'
         +'<div class="keys">'
-        +'<div class="key"><small>Renta al mes (estimada, Rentometer)</small><strong class="js-rent"></strong></div>'
-        +'<div class="key"><small>Ganancia neta al mes</small><strong class="js-gain"></strong></div>'
-        +'<div class="key"><small>Efectivo total que pones</small><strong class="js-cash"></strong></div>'
+        +'<div class="key"><small>'+tx('Renta al mes (estimada, Rentometer)')+'</small><strong class="js-rent"></strong></div>'
+        +'<div class="key"><small>'+tx('Ganancia neta al mes')+'</small><strong class="js-gain"></strong></div>'
+        +'<div class="key"><small>'+tx('Efectivo total que pones')+'</small><strong class="js-cash"></strong></div>'
         +'</div>'
-        +'<div class="goal"><div class="gtop"><span>Tu meta: <b class="js-goal"></b></span><span class="pill js-pill"></span></div><div class="gbar"><i class="js-gbar" style="width:0"></i></div></div>'
-        +'<div class="miniest"><b>Recuerda:</b> la renta, los impuestos y el seguro son estimados. Pueden ser distintos en la realidad.</div>'
-        +(p.rentNote?'<p class="advnote"><b>Sobre la renta:</b> '+p.rentNote+'</p>':'')
-        +(p.cardNote?'<p class="advnote">'+p.cardNote+'</p>':'')
-        +'<div class="addrow"><div><b>Agregar a mi portafolio</b><small>Cuántas de estas propiedades quieres sumar</small></div><div class="step2"><button type="button" data-q="-1" aria-label="Quitar una">−</button><span class="js-q">0</span><button type="button" data-q="1" aria-label="Agregar una">+</button></div></div>'
-        +'<details><summary>Ajusta los números de esta propiedad</summary><div class="in"><div class="grid g2" style="margin-top:8px">'
-        +'<label class="f"><span>Descuento sobre el precio que piden<small>El vendedor pide '+fmt(p.price)+'. Podemos ofrecer menos.</small></span><div class="inp"><input data-k="disc" type="number" inputmode="decimal" step="1" min="0" max="50" value="'+st.disc+'"><i>%</i></div></label>'
-        +'<label class="f"><span>Tu precio de oferta</span><div class="inp"><i>$</i><input class="js-offer" disabled value=""></div></label>'
-        +'<label class="f" style="grid-column:1/-1"><span>Escenario de renta (todas las unidades)</span><select data-k="rent">'+opts+'</select></label>'
-        +(st.rent==='custom'?'<label class="f"><span>Renta mensual total</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
-        +'<label class="f"><span>Impuestos al año</span><div class="inp"><i>$</i><input data-k="tax" type="number" inputmode="decimal" step="50" min="0" value="'+st.tax+'"></div></label>'
-        +'<label class="f"><span>Seguro al año (estimado)</span><div class="inp"><i>$</i><input data-k="ins" type="number" inputmode="decimal" step="50" min="0" value="'+st.ins+'"></div></label>'
-        +'<label class="f"><span>HOA al año</span><div class="inp"><i>$</i><input data-k="hoa" type="number" inputmode="decimal" step="50" min="0" value="'+(st.hoa||0)+'"></div></label>'
-        +'</div><div class="row"><button class="btn ghost" type="button" data-reset="'+p.id+'">Restablecer esta propiedad</button></div></div></details>'
-        +'<details><summary>Ver el cálculo completo y de dónde salen los datos</summary><div class="in">'
+        +'<div class="goal"><div class="gtop"><span>'+tx('Tu meta:')+' <b class="js-goal"></b></span><span class="pill js-pill"></span></div><div class="gbar"><i class="js-gbar" style="width:0"></i></div></div>'
+        +'<div class="miniest"><b>'+tx('Recuerda:')+'</b> '+tx('la renta, los impuestos y el seguro son estimados. Pueden ser distintos en la realidad.')+'</div>'
+        +(rn?'<p class="advnote"><b>'+tx('Sobre la renta:')+'</b> '+rn+'</p>':'')
+        +(cn?'<p class="advnote">'+cn+'</p>':'')
+        +'<div class="addrow"><div><b>'+tx('Agregar a mi portafolio')+'</b><small>'+tx('Cuántas de estas propiedades quieres sumar')+'</small></div><div class="step2"><button type="button" data-q="-1" aria-label="'+tx('Quitar una')+'">−</button><span class="js-q">0</span><button type="button" data-q="1" aria-label="'+tx('Agregar una')+'">+</button></div></div>'
+        +'<details><summary>'+tx('Ajusta los números de esta propiedad')+'</summary><div class="in"><div class="grid g2" style="margin-top:8px">'
+        +'<label class="f"><span>'+tx('Descuento sobre el precio que piden')+'<small>'+tx('El vendedor pide {p}. Podemos ofrecer menos.',{p:fmt(p.price)})+'</small></span><div class="inp"><input data-k="disc" type="number" inputmode="decimal" step="1" min="0" max="50" value="'+st.disc+'"><i>%</i></div></label>'
+        +'<label class="f"><span>'+tx('Tu precio de oferta')+'</span><div class="inp"><i>$</i><input class="js-offer" disabled value=""></div></label>'
+        +'<label class="f" style="grid-column:1/-1"><span>'+tx('Escenario de renta (todas las unidades)')+'</span><select data-k="rent">'+opts+'</select></label>'
+        +(st.rent==='custom'?'<label class="f"><span>'+tx('Renta mensual total')+'</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
+        +'<label class="f"><span>'+tx('Impuestos al año')+'</span><div class="inp"><i>$</i><input data-k="tax" type="number" inputmode="decimal" step="50" min="0" value="'+st.tax+'"></div></label>'
+        +'<label class="f"><span>'+tx('Seguro al año (estimado)')+'</span><div class="inp"><i>$</i><input data-k="ins" type="number" inputmode="decimal" step="50" min="0" value="'+st.ins+'"></div></label>'
+        +'<label class="f"><span>'+tx('HOA al año')+'</span><div class="inp"><i>$</i><input data-k="hoa" type="number" inputmode="decimal" step="50" min="0" value="'+(st.hoa||0)+'"></div></label>'
+        +'</div><div class="row"><button class="btn ghost" type="button" data-reset="'+p.id+'">'+tx('Restablecer esta propiedad')+'</button></div></div></details>'
+        +'<details><summary>'+tx('Ver el cálculo completo y de dónde salen los datos')+'</summary><div class="in">'
         +'<table class="bd" style="margin-top:8px">'
-        +'<tr><td>Renta del año</td><td></td></tr><tr class="sub"><td>Administración</td><td></td></tr><tr class="sub"><td>Mantenimiento</td><td></td></tr><tr class="sub"><td>Meses sin inquilino</td><td></td></tr><tr class="sub"><td>Reserva grandes reparaciones</td><td></td></tr><tr class="sub"><td>Impuestos</td><td></td></tr><tr class="sub"><td>Seguro</td><td></td></tr><tr class="sub"><td>HOA</td><td></td></tr><tr class="t"><td>Ganancia neta al año</td><td></td></tr>'
+        +'<tr><td>'+tx('Renta del año')+'</td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td>'+tx('Impuestos')+'</td><td></td></tr><tr class="sub"><td>'+tx('Seguro')+'</td><td></td></tr><tr class="sub"><td>'+tx('HOA')+'</td><td></td></tr><tr class="t"><td>'+tx('Ganancia neta al año')+'</td><td></td></tr>'
         +'</table>'
-        +'<div class="meter"><div><small>Renta mensual para llegar a tu meta</small><strong class="js-need"></strong></div><div><small>Precio máximo para llegar a tu meta</small><strong class="js-max"></strong></div></div>'
-        +'<p class="src"><b>Renta (estimado de Rentometer QuickView):</b> '+p.rentSrc+'</p>'
-        +'<p class="src"><b>Impuestos:</b> '+p.taxNote+(p.taxEst?'':' Son datos históricos y pueden cambiar.')+'</p>'
-        +'<p class="src"><b>Seguro:</b> estimado. Pide cotizaciones reales a un agente de seguros.</p>'
+        +'<div class="meter"><div><small>'+tx('Renta mensual para llegar a tu meta')+'</small><strong class="js-need"></strong></div><div><small>'+tx('Precio máximo para llegar a tu meta')+'</small><strong class="js-max"></strong></div></div>'
+        +'<p class="src"><b>'+tx('Renta (estimado de Rentometer QuickView):')+'</b> '+pf(p,'rentSrc')+'</p>'
+        +'<p class="src"><b>'+tx('Impuestos:')+'</b> '+pf(p,'taxNote')+(p.taxEst?'':tx(' Son datos históricos y pueden cambiar.'))+'</p>'
+        +'<p class="src"><b>'+tx('Seguro:')+'</b> '+tx('estimado. Pide cotizaciones reales a un agente de seguros.')+'</p>'
         +'</div></details>'
         +'</article>';
     });
@@ -815,7 +831,7 @@
     var lgs=card.querySelectorAll('.lg');
     c.parts.forEach(function(v,i){
       var per=c.gross>0?v/c.gross*100:0;
-      lgs[i].querySelector('.am').textContent=fmt(v)+' al año';
+      lgs[i].querySelector('.am').textContent=tx('{v} al año',{v:fmt(v)});
       lgs[i].querySelector('.pc').textContent='$'+per.toFixed(0);
     });
     tween(card.querySelector('.js-ret'),seen?c.ret*100:0,function(v){return v.toFixed(1)+'%';});
@@ -825,18 +841,18 @@
     card.querySelector('.js-goal').textContent=a.goal+'%';
     var ok=c.ret>=c.goal, pill=card.querySelector('.js-pill');
     pill.className='pill js-pill '+(ok?'ok':'no');
-    pill.textContent=ok?'Cumple tu meta':'Debajo de tu meta ('+((c.goal-c.ret)*100).toFixed(1)+' puntos)';
+    pill.textContent=ok?tx('Cumple tu meta'):tx('Debajo de tu meta ({n} puntos)',{n:((c.goal-c.ret)*100).toFixed(1)});
     card.querySelector('.js-gbar').style.width=seen?Math.max(0,Math.min(100,c.goal>0?c.ret/c.goal*100:0))+'%':'0';
     var dis=card.querySelector('.js-offer'); if(dis)dis.value=Math.round(c.offer).toLocaleString('en-US');
     var tds=card.querySelectorAll('table.bd td:last-child');
     [c.gross,-c.mg,-c.mt,-c.vc,-c.cx,-c.tax,-c.ins,-c.hoa,c.noi].forEach(function(v,i){tds[i].textContent=fmt(v);});
     var rows=card.querySelectorAll('table.bd tr');
-    rows[1].firstChild.textContent='Administración ('+a.mgmt+'%)';
-    rows[2].firstChild.textContent='Mantenimiento ('+a.maint+'%)';
-    rows[3].firstChild.textContent='Meses sin inquilino ('+a.vac+'%)';
-    rows[4].firstChild.textContent='Reserva grandes reparaciones ('+a.capex+'%)';
+    rows[1].firstChild.textContent=tx('Administración ({n}%)',{n:a.mgmt});
+    rows[2].firstChild.textContent=tx('Mantenimiento ({n}%)',{n:a.maint});
+    rows[3].firstChild.textContent=tx('Meses sin inquilino ({n}%)',{n:a.vac});
+    rows[4].firstChild.textContent=tx('Reserva grandes reparaciones ({n}%)',{n:a.capex});
     card.querySelector('.js-need').textContent=fmt(c.needRent);
-    card.querySelector('.js-max').textContent=c.maxPrice>0?fmt(c.maxPrice):'No aplica';
+    card.querySelector('.js-max').textContent=c.maxPrice>0?fmt(c.maxPrice):tx('No aplica');
     var q=state.qty[p.id]||0; card.querySelector('.js-q').textContent=q;
     card.querySelector('[data-q="-1"]').disabled=q<=0; card.querySelector('[data-q="1"]').disabled=q>=5;
   }
@@ -855,12 +871,12 @@
     tween($('pfcash'),cash,fmt);
     tween($('pfleft'),bud-cash,fmt);
     var m=$('pfmsg');
-    if(!qn)m.innerHTML='<p class="pfempty">Todavía no has agregado nada. Ve a las propiedades y toca el botón <b>+</b> para sumar las que te interesen.</p>';
-    else if(over)m.innerHTML='<div class="pfwarn">Con esta selección te pasas de tu presupuesto por '+fmt(cash-bud)+'.</div>';
-    else m.innerHTML='<p class="pfempty">Con '+qn+' propiedad'+(qn>1?'es':'')+' en tu portafolio.</p>';
+    if(!qn)m.innerHTML='<p class="pfempty">'+tx('Todavía no has agregado nada. Ve a las propiedades y toca el botón <b>+</b> para sumar las que te interesen.')+'</p>';
+    else if(over)m.innerHTML='<div class="pfwarn">'+tx('Con esta selección te pasas de tu presupuesto por {v}.',{v:fmt(cash-bud)})+'</div>';
+    else m.innerHTML='<p class="pfempty">'+(qn>1?tx('Con {n} propiedades en tu portafolio.',{n:qn}):tx('Con {n} propiedad en tu portafolio.',{n:qn}))+'</p>';
     // fab
     var fab=$('fab');
-    if(qn){fab.textContent='Mi portafolio · '+fmt(noi/12)+' al mes';fab.classList.add('show');}else fab.classList.remove('show');
+    if(qn){fab.textContent=tx('Mi portafolio · {v} al mes',{v:fmt(noi/12)});fab.classList.add('show');}else fab.classList.remove('show');
     renderProj(cash,noi);
     heroStats();
   }
@@ -876,16 +892,16 @@
     var h='<defs><linearGradient id="gg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C9973A" stop-opacity=".55"/><stop offset="1" stop-color="#C9973A" stop-opacity="0"/></linearGradient></defs>';
     for(i=0;i<=ticks;i++){var v=ymin+stp*i,y=Y(v);h+='<line class="grid" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+y+'" y2="'+y+'"/><text x="'+(L-8)+'" y="'+(y+4)+'" text-anchor="end">'+(Math.abs(v)>=1000?'$'+Math.round(v/1000)+'k':'$'+Math.round(v))+'</text>';}
     for(i=0;i<=N;i++){h+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle">'+i+'</text>';}
-    if(cash>0)h+='<line class="cash" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(cash)+'" y2="'+Y(cash)+'"/><text x="'+(W-Rr)+'" y="'+(Y(cash)-6)+'" text-anchor="end" style="fill:#fff">Efectivo invertido</text>';
+    if(cash>0)h+='<line class="cash" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(cash)+'" y2="'+Y(cash)+'"/><text x="'+(W-Rr)+'" y="'+(Y(cash)-6)+'" text-anchor="end" style="fill:#fff">'+tx('Efectivo invertido')+'</text>';
     var pts=cum.map(function(v,k){return X(k)+','+Y(v);}).join(' ');
     h+='<polygon class="ar" points="'+X(0)+','+Y(0)+' '+pts+' '+X(N)+','+Y(0)+'"/><polyline class="ln" points="'+pts+'"/>';
     cum.forEach(function(v,k){if(k>0)h+='<circle cx="'+X(k)+'" cy="'+Y(v)+'" r="3.5" fill="#E8C77A"/>';});
-    h+='<text x="'+((W+L)/2)+'" y="'+(H-0)+'" text-anchor="middle" style="font-size:10px">años</text>';
+    h+='<text x="'+((W+L)/2)+'" y="'+(H-0)+'" text-anchor="middle" style="font-size:10px">'+tx('años')+'</text>';
     $('chart').innerHTML=h;
     tween($('pjcum'),cum[N],fmt);
     var pay='—';
-    if(cash>0&&noi>0){var tt=0,yy=0;while(tt<cash&&yy<60){yy++;tt+=noi*Math.pow(1+g,yy-1);} if(tt>=cash){var prev=tt-noi*Math.pow(1+g,yy-1);pay='aprox. '+(yy-1+(cash-prev)/(tt-prev)).toFixed(1)+' años';}else pay='más de 60 años';}
-    else if(cash>0)pay='no se recupera con estos números';
+    if(cash>0&&noi>0){var tt=0,yy=0;while(tt<cash&&yy<60){yy++;tt+=noi*Math.pow(1+g,yy-1);} if(tt>=cash){var prev=tt-noi*Math.pow(1+g,yy-1);pay=tx('aprox. {n} años',{n:(yy-1+(cash-prev)/(tt-prev)).toFixed(1)});}else pay=tx('más de 60 años');}
+    else if(cash>0)pay=tx('no se recupera con estos números');
     $('pjpay').textContent=pay;
   }
 
@@ -913,7 +929,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('modal').hidden)closeAsk();});
   $('myes').addEventListener('click',function(){var f=pending;closeAsk();if(f)f();});
   $('reset').addEventListener('click',function(){
-    ask('Se borrarán todos los cambios que hiciste (porcentajes, rentas, impuestos, seguro, descuentos y tu portafolio) y volverán los valores originales. ¿Quieres continuar?',function(){
+    ask(tx('Se borrarán todos los cambios que hiciste (porcentajes, rentas, impuestos, seguro, descuentos y tu portafolio) y volverán los valores originales. ¿Quieres continuar?'),function(){
       state.assume=clone(DEF.assume);state.budget=DEF.budget;state.growth=DEF.growth;state.years=DEF.years;
       PROPS.forEach(function(p){state.props[p.id]=defProp(p);state.qty[p.id]=0;});
       save();renderAssume();renderAll();
@@ -927,7 +943,7 @@
     var b=e.target.closest('[data-reset]');
     if(b){
       var id=b.getAttribute('data-reset'),p=PROPS.filter(function(x){return x.id===id;})[0];
-      ask('Se borrarán los cambios que hiciste en '+p.name+' (descuento, renta, impuestos y seguro) y volverán los valores originales. Los porcentajes generales y tu portafolio no cambian. ¿Quieres continuar?',function(){
+      ask(tx('Se borrarán los cambios que hiciste en {name} (descuento, renta, impuestos y seguro) y volverán los valores originales. Los porcentajes generales y tu portafolio no cambian. ¿Quieres continuar?',{name:p.name}),function(){
         state.props[id]=defProp(p);save();var open=openStates();renderProps();restoreOpen(open);updateAll();
       });
       return;
@@ -971,7 +987,36 @@
   var links=[].slice.call(document.querySelectorAll('.nav a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
   window.addEventListener('scroll',function(){var pf=$('portafolio').getBoundingClientRect();$('fab').classList.toggle('away',pf.top<window.innerHeight*0.6&&pf.bottom>120);var y=window.scrollY+120,cur=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i;});links.forEach(function(a,i){a.classList.toggle('on',i===cur);});},{passive:true});
 
-  buildMap();renderAssume();renderAll();
+  /* ---- idioma ---- */
+  function applyStatic(){
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var pe=n.parentNode;if(!pe)return NodeFilter.FILTER_REJECT;if(/^(SCRIPT|STYLE)$/.test(pe.nodeName)||(pe.closest&&pe.closest('svg,#props,#bars,#cmp,#mchips,#mmodes,#mapinfo,#chips,#pfmsg')))return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT;}});
+    var n,list=[];while((n=w.nextNode()))list.push(n);
+    list.forEach(function(n){
+      var raw=n.nodeValue;if(!raw.trim())return;
+      if(n._es===undefined){var k0=raw.trim().replace(/\s+/g,' ');if(EN[k0]==null)return;n._es=raw;}
+      var es=n._es,key=es.trim().replace(/\s+/g,' ');
+      n.nodeValue=LANG==='en'&&EN[key]!=null?es.replace(es.trim(),EN[key]):es;
+    });
+    [].forEach.call(document.querySelectorAll('[aria-label]'),function(el){
+      if(el._aes===undefined){var v=el.getAttribute('aria-label');if(EN[v]==null)return;el._aes=v;}
+      el.setAttribute('aria-label',LANG==='en'?EN[el._aes]:el._aes);
+    });
+    document.documentElement.lang=LANG;
+    document.title=LANG==='en'?'Investment Comparison for Marco | El Dorado Home Group':'Comparador de Inversión para Marco | El Dorado Home Group';
+    var md=document.querySelector('meta[name="description"]');if(md)md.setAttribute('content',LANG==='en'?'Compare investment properties and see your estimated net return. All numbers are estimates.':'Compara propiedades de inversión y calcula tu retorno neto. Todos los números son estimados.');
+    [].forEach.call(document.querySelectorAll('.langsw button'),function(b){b.classList.toggle('on',b.getAttribute('data-lang')===LANG);});
+  }
+  function setLang(l){
+    if(l===LANG)return; LANG=l;
+    try{localStorage.setItem('comparador-lang',l);}catch(e){}
+    applyStatic();
+    var o=openStates();renderAll();restoreOpen(o);
+    renderModes();if(selPin)showPin(selPin);
+    document.querySelectorAll('.prop').forEach(function(c){if(!c.classList.contains('seen'))return;});
+  }
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(b)setLang(b.getAttribute('data-lang'));});
+
+  buildMap();renderAssume();renderAll();applyStatic();
 })();
 </script>
 </body>

@@ -4,6 +4,15 @@
 window.PROPS = [
   {
     id:'granby', lat:35.9999548, lon:-78.8840628, name:'1214 Granby Street', city:'Durham, NC 27701',
+    en:{
+          kind:'Duplex',
+          tags:['Built in 2009','Townhome style duplex','2 units of 3 bedrooms and 2 baths','1 car garage per unit','No HOA','60 days on the market since it was relisted (97 in total)'],
+          taxNote:'Taxes for tax year 2025 (assessed value $459,420).',
+          rentSrc:'Rentometer QuickView, apartments or attached units only (not single-family homes), because a duplex earns less rent than a house of the same size. Each side is compared separately: 3 bedrooms, 1.5 baths or more, and between 950 and 1,300 sq ft (each side is about 1,100 sq ft). That is 17 comparables within a 3 mile radius. The median is $1,668 per side and we multiply it by 2 sides. Middle half range per side: $1,529 to $2,612. The high end is wide because it includes some new luxury buildings. IMPORTANT: although Rentometer shows a median of $1,668 per side, so we do not set false expectations we cap our typical scenario at $1,400 per side ($2,800 total) and the maximum at $1,500 per side ($3,000 total). The conservative scenario ($1,250 per side) is what the highest-paying tenant pays today. These caps are our own judgment, not a Rentometer figure.',
+          rents:{median:'Our typical estimate (cap of $1,400 per side)',p25:'Conservative ($1,250 per side)',p75:'Maximum we consider ($1,500 per side)',actual:'Current rents under lease ($1,059 and $1,250)',custom:'Other rent (I will type it)'},
+          rentNote:'Today the two units rent for $1,059 and $1,250 per month. According to the listing, the leases end on April 30, 2027, and from then on it could be rented at market price. Choose the current rents scenario to see today\'s return.',
+          cardNote:'Confirm the tenants\' situation and the plan for the end of the leases with an attorney.'
+        },
     link:'https://www.flexmls.com/share/Epl5F/1214-Granby-Street-Durham-NC-27701',
     kind:'Dúplex', price:400000, orig:415000,
     tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado desde que se volvió a listar (97 en total)'],
@@ -22,6 +31,15 @@ window.PROPS = [
   },
   {
     id:'sellers', lat:35.5357863, lon:-78.2793964, name:'215 N Sellers Street', city:'Selma, NC 27576',
+    en:{
+          kind:'Duplex',
+          tags:['Built in 2022','Side by side duplex','2 units of 3 bedrooms and 2.5 baths','About 1,255 sq ft per unit','No HOA','155 days on the market'],
+          taxNote:'Taxes for tax year 2025 (assessed value $351,820).',
+          rentSrc:'Rentometer QuickView does not have enough comparables of 3 bedroom apartments or attached units in this area (only 2 within 10 miles, and none the size of each side). Nearby 3 bedroom single-family homes rent at a median of $1,795, but a duplex earns less, so we do not use that figure. So we do not set false expectations we use the same caps as the other duplex: typical scenario $1,400 per side ($2,800 total) and maximum $1,500 per side. The conservative one is $1,250 per side. These caps are our own judgment, not a Rentometer figure. The best step is to ask the listing agent for the actual rents.',
+          rents:{median:'Our typical estimate (cap of $1,400 per side)',p25:'Conservative ($1,250 per side)',p75:'Maximum we consider ($1,500 per side)',custom:'Other rent (I will type it)'},
+          rentNote:'Heads up: there is not enough rent data for attached units in Selma, so this rent is our conservative estimate and it is the least reliable on the list. The listing says both units are rented until January 1, 2027, but it does not publish the current rent. Ask the listing agent for it.',
+          cardNote:'The seller has more identical buildings on the same street. Buying more than one may open the door to a better price. The listing photos have virtual staging.'
+        },
     link:'https://www.flexmls.com/share/Epl6R/215-N-Sellers-Street-Selma-NC-27576',
     kind:'Dúplex', price:439500, orig:449000,
     tags:['Construida en 2022','Dúplex lado a lado','2 unidades de 3 recámaras y 2.5 baños','Aprox. 1,255 pies² por unidad','Sin HOA','155 días en el mercado'],
@@ -39,6 +57,15 @@ window.PROPS = [
   },
   {
     id:'glendale', lat:35.4433816, lon:-79.1621212, name:'220 Glendale Circle', city:'Sanford, NC 27332',
+    en:{
+          kind:'Single-family home',
+          tags:['Built in 2020','3 bedrooms and 2 baths','About 1,580 sq ft','2 car garage','No HOA','One story, half-acre lot','172 days on the market','Price cut of $65,500'],
+          taxNote:'ESTIMATE. The MLS does not publish this property\'s tax. It was calculated with the Lee County rate (65 cents per $100) on the list price. Ask the agent or the county for the real figure.',
+          rentSrc:'Rentometer QuickView, median of 19 similar 3 bedroom properties between 1,264 and 1,975 sq ft within a 3 mile radius. Reported average: $1,877. Middle half range: $1,799 to $1,955.',
+          rents:{median:'Market median (Rentometer)',p25:'Low market, 25th percentile (Rentometer)',p75:'High market, 75th percentile (Rentometer)',custom:'Other rent (I will type it)'},
+          rentNote:'It is a single unit. The listing does not say whether there is a tenant.',
+          cardNote:'The listing photos show a clean, well kept home, with a dark cabinet and granite kitchen, and carpeted bedrooms. According to the listing it has a septic tank and propane gas. Confirm the condition in person.'
+        },
     link:'https://www.flexmls.com/share/EpmBo/220-Glendale-Circle-Sanford-NC-27332',
     kind:'Casa unifamiliar', price:260000, orig:325500,
     tags:['Construida en 2020','3 recámaras y 2 baños','Aprox. 1,580 pies²','Garaje de 2 carros','Sin HOA','Una planta, lote de media acre','172 días en el mercado','Rebaja de $65,500'],
@@ -56,6 +83,15 @@ window.PROPS = [
   },
   {
     id:'sunfish', lat:35.5359025, lon:-78.331215, name:'282 Sunfish Street', city:'Smithfield, NC 27577',
+    en:{
+          kind:'Single-family home',
+          tags:['Built in 2021','3 bedrooms and 2 baths','About 1,216 sq ft','1 car garage','HOA of $110 per month','One story','135 days on the market'],
+          taxNote:'Taxes for tax year 2025 (assessed value $279,900).',
+          rentSrc:'Rentometer QuickView, median of 12 similar 3 bedroom properties between 972 and 1,520 sq ft within a 3 mile radius. Reported average: $1,802. Middle half range: $1,744 to $1,861.',
+          rents:{median:'Market median (Rentometer)',p25:'Low market, 25th percentile (Rentometer)',p75:'High market, 75th percentile (Rentometer)',custom:'Other rent (I will type it)'},
+          rentNote:'It is a single unit. The listing says it is not rented.',
+          cardNote:'The listing photos show a clean home, with vinyl plank flooring, a granite kitchen and stainless steel appliances. East River HOA rules: according to the covenants in the listing (a partial copy), the HOA cannot prohibit renting out the home; it can only require a minimum lease of up to 6 months and its own lease form, without charging a fee for the lease. Therefore, long-term renting is allowed. We do NOT know whether short-term rentals (like Airbnb) or mid-term rentals (leases of 1 to 6 months) are allowed, because the use rules (Exhibit C) were not in the documents. Confirm this and the exact fee with the HOA (919-332-4680). Confirm the condition in person.'
+        },
     link:'https://www.flexmls.com/share/EpmCK/282-Sunfish-Street-Smithfield-NC-27577',
     kind:'Casa unifamiliar', price:249900, orig:249900,
     tags:['Construida en 2021','3 recámaras y 2 baños','Aprox. 1,216 pies²','Garaje de 1 carro','HOA de $110 al mes','Una planta','135 días en el mercado'],
