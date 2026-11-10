@@ -269,6 +269,23 @@
   .btn.sm{padding:8px 12px;font-size:12.5px}
   .dark .btn.ghost{color:#fff;border-color:rgba(255,255,255,.35)}
   .key .cs{display:block;color:var(--soft);font-size:11.5px;margin-top:2px;line-height:1.3}
+  .proph{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+  .adj{margin:18px 0 0;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+  .adj .adjhead{font-family:'Poppins',Arial,sans-serif;font-weight:600;font-size:14px;margin:0 0 10px}
+  .achips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  @media (max-width:760px){.achips{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .achip{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0;font:inherit;color:inherit}
+  button.achip{cursor:pointer;border:2px solid var(--gold);background:var(--gold-bg);transition:transform .15s,box-shadow .2s}
+  button.achip:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(12,44,66,.12)}
+  button.achip[aria-expanded="true"]{background:#fff;box-shadow:0 0 0 3px rgba(201,151,58,.35)}
+  .achip .al{font-size:12px;color:var(--soft)}
+  .achip b{font-family:'Poppins',Arial,sans-serif;font-size:18px}
+  .achip small{font-size:11px;color:var(--soft);line-height:1.3}
+  .achip .go{font-size:12px;font-weight:700;color:var(--gold-ink);font-style:normal;margin-top:2px}
+  .achip.ro{opacity:.9}
+  .adjpanel{margin:12px 0 0;padding:14px;border-radius:12px;background:var(--gold-bg);border:1px solid #E9D5A3}
+  .adjpanel[hidden]{display:none}
+  .adjpanel .note{margin-top:8px}
   .goal{margin:16px 0 0}
   .goal .gtop{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:6px;flex-wrap:wrap}
   .pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600}
@@ -382,6 +399,7 @@
   @media print{
     .nav,.fab,.orb,.grid-bg,.modal,.step2,button.btn,.seg3,.langsw,.shared,[data-act],.ctl .row,#mapa,.gls,.steps,.offerbox .btn,.addrow{display:none!important}
     .noprint{display:none!important}
+    .achip .go,.adjpanel{display:none!important}
     .prop{break-inside:auto}
     h2,h3,.rule{break-after:avoid}
     .panel,.est,.ctl,.offerbox{break-inside:avoid}
@@ -443,8 +461,8 @@
       <ul>
         <li><b>Tu oferta:</b> escribe cuánto ofrecerías por la propiedad.</li>
         <li><b>La renta:</b> elige un escenario o escribe la renta que esperas.</li>
-        <li><b>Seguro e impuestos:</b> cámbialos cuando tengas cotizaciones reales.</li>
-        <li><b>Y más:</b> la cuota de HOA, los porcentajes de gastos, tu meta de retorno y el crecimiento a futuro.</li>
+        <li><b>El seguro:</b> es un estimado, cámbialo cuando tengas una cotización real.</li>
+        <li><b>Y más:</b> los porcentajes de gastos, tu meta de retorno y el crecimiento a futuro. Los impuestos y la cuota de HOA vienen de los registros y documentos del anuncio, no hace falta ajustarlos.</li>
       </ul>
       <p class="ctl-foot">Todo se recalcula solo, y con los botones "Restablecer" puedes volver a los números originales.</p>
       <p class="ctl-foot noprint" style="margin-top:0"><b style="color:var(--gold-2)">Cuando estés conforme con tus números:</b> guárdalos en un PDF y envíanoslo por correo a Francisco y Maria. Paso 1: toca "Guardar en PDF". Paso 2: toca "Enviar el PDF por correo" y adjunta el archivo que guardaste.</p>
@@ -639,7 +657,7 @@
   function defPg(p){return (p.grow&&p.grow.rent!=null)?p.grow.rent:0;}
   function defPv(p){return (p.grow&&p.grow.value!=null)?p.grow.value:0;}
   PROPS.forEach(function(p){state.props[p.id]=defProp(p);state.qty[p.id]=0;state.pg[p.id]=defPg(p);state.pv[p.id]=defPv(p);});
-  try{var s0=JSON.parse(localStorage.getItem(KEY)||'null');if(s0&&s0.assume&&s0.props){state=merge(state,s0);PROPS.forEach(function(p){var o=s0.props[p.id];if(o&&o.offer==null&&o.disc)state.props[p.id].offer=Math.round(p.price*(1-o.disc/100));});}}catch(e){}
+  try{var s0=JSON.parse(localStorage.getItem(KEY)||'null');if(s0&&s0.assume&&s0.props){state=merge(state,s0);PROPS.forEach(function(p){state.props[p.id].tax=p.tax;state.props[p.id].hoa=p.hoa||0;var o=s0.props[p.id];if(o&&o.offer==null&&o.disc)state.props[p.id].offer=Math.round(p.price*(1-o.disc/100));});}}catch(e){}
   function clone(o){return JSON.parse(JSON.stringify(o));}
   function merge(a,b){for(var k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k]){a[k]=merge(a[k],b[k]);}else{a[k]=b[k];}}return a;}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
@@ -823,6 +841,7 @@
     });},{threshold:.12});
     document.querySelectorAll('.rv:not(.in),.prop:not(.seen)').forEach(function(e){io.observe(e);});
   }
+  var OPEN={};
   function renderProps(){
     var out='';
     PROPS.forEach(function(p){
@@ -830,7 +849,7 @@
       var opts=p.rents.map(function(r){return '<option value="'+r.k+'"'+(st.rent===r.k?' selected':'')+'>'+pl(p,r)+(r.k==='custom'?'':tx(': {v} al mes',{v:fmt(r.v)}))+'</option>';}).join('');
       var rn=pf(p,'rentNote'), cn=pf(p,'cardNote');
       out+='<article class="prop" data-p="'+p.id+'">'
-        +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' · '+tx('Precio que piden')+' '+fmt(p.price)+(p.orig>p.price?' ('+(LANG==='en'?'was':'antes')+' '+fmt(p.orig)+')':'')+tx(' · Se puede negociar')+'</div>'
+        +'<div class="proph"><h3>'+p.name+'</h3><button class="btn ghost sm" type="button" data-reset="'+p.id+'">'+tx('Restablecer a los valores originales')+'</button></div><div class="addr">'+p.city+' · '+tx('Precio que piden')+' '+fmt(p.price)+(p.orig>p.price?' ('+(LANG==='en'?'was':'antes')+' '+fmt(p.orig)+')':'')+tx(' · Se puede negociar')+'</div>'
         +'<div class="tags">'+(pf(p,'kind')?'<span class="tag k">'+pf(p,'kind')+'</span>':'')+pf(p,'tags').map(function(x){return '<span class="tag">'+x+'</span>';}).join('')+'</div>'
         +'<a class="btn gold" href="'+p.link+'" target="_blank" rel="noopener">'+tx('Ver la propiedad y sus fotos')+'</a>'
         +'<div class="offerbox"><div class="ob-l"><b>'+tx('Tu oferta (precio de compra)')+'</b><small>'+tx('El vendedor pide {p}. Puedes dejar ese precio o escribir una oferta más baja.',{p:fmt(p.price)})+'</small></div><div class="ob-r"><div class="inp"><i>$</i><input data-k="offer" type="number" inputmode="numeric" step="1000" min="0" value="'+Math.round(num(st.offer,p.price))+'" aria-label="'+tx('Tu oferta (precio de compra)')+'"></div><button class="btn ghost sm" type="button" data-asking="'+p.id+'">'+tx('Usar el precio que piden')+'</button></div><p class="ob-diff js-offerdiff"></p></div>'
@@ -840,18 +859,22 @@
         +'<div class="key"><small>'+tx('Ganancia neta al mes')+'</small><strong class="js-gain"></strong></div>'
         +'<div class="key"><small>'+tx('Tu inversión total en efectivo')+'</small><strong class="js-cash"></strong><span class="cs js-cashsub"></span></div>'
         +'</div>'
+        +'<div class="adj"><div class="adjhead">'+tx('Lo que puedes ajustar')+'</div><div class="achips">'
+        +'<button type="button" class="achip" data-open="rent" aria-expanded="'+(OPEN[p.id]==='rent')+'"><span class="al">'+tx('Renta al mes')+'</span><b class="js-rent2"></b><i class="go">'+tx('Ajustar')+' ✎</i></button>'
+        +'<button type="button" class="achip" data-open="ins" aria-expanded="'+(OPEN[p.id]==='ins')+'"><span class="al">'+tx('Seguro al año (estimado)')+'</span><b class="js-ins2"></b><i class="go">'+tx('Ajustar')+' ✎</i></button>'
+        +'<div class="achip ro"><span class="al">'+tx('Impuestos al año')+'</span><b class="js-tax2"></b><small>'+(p.taxEst?tx('Estimado con la tasa del condado, porque el MLS no lo publica. No hace falta ajustarlo.'):tx('Según el MLS (año fiscal 2025). No hace falta ajustarlo.'))+'</small></div>'
+        +'<div class="achip ro"><span class="al">'+tx('HOA al año')+'</span><b class="js-hoa2"></b><small>'+tx('Según los documentos del anuncio. No hace falta ajustarla.')+'</small></div>'
+        +'</div>'
+        +'<div class="adjpanel" data-panel="rent"'+(OPEN[p.id]==='rent'?'':' hidden')+'><label class="f"><span>'+tx('Escenario de renta (todas las unidades)')+'</span><select data-k="rent">'+opts+'</select></label>'
+        +(st.rent==='custom'?'<label class="f" style="margin-top:10px"><span>'+tx('Renta mensual total')+'</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
+        +'</div>'
+        +'<div class="adjpanel" data-panel="ins"'+(OPEN[p.id]==='ins'?'':' hidden')+'><label class="f"><span>'+tx('Seguro al año (estimado)')+'</span><div class="inp"><i>$</i><input data-k="ins" type="number" inputmode="decimal" step="50" min="0" value="'+st.ins+'"></div></label><p class="note">'+tx('Es un estimado. Cámbialo cuando tengas una cotización real de un agente de seguros.')+'</p></div>'
+        +'</div>'
         +'<div class="goal"><div class="gtop"><span>'+tx('Tu meta:')+' <b class="js-goal"></b></span><span class="pill js-pill"></span></div><div class="gbar"><i class="js-gbar" style="width:0"></i></div></div>'
         +'<div class="miniest"><b>'+tx('Recuerda:')+'</b> '+tx('la renta, los impuestos y el seguro son estimados. Pueden ser distintos en la realidad.')+'</div>'
         +(rn?'<p class="advnote"><b>'+tx('Sobre la renta:')+'</b> '+rn+'</p>':'')
         +(cn?'<p class="advnote">'+cn+'</p>':'')
         +'<div class="addrow"><div><b>'+tx('Agregar a mi portafolio')+'</b><small>'+tx('Cuántas de estas propiedades quieres sumar')+'</small></div><div class="step2"><button type="button" data-q="-1" aria-label="'+tx('Quitar una')+'">−</button><span class="js-q">0</span><button type="button" data-q="1" aria-label="'+tx('Agregar una')+'">+</button></div></div>'
-        +'<details><summary>'+tx('Ajusta los números de esta propiedad')+'</summary><div class="in"><div class="grid g2" style="margin-top:8px">'
-        +'<label class="f" style="grid-column:1/-1"><span>'+tx('Escenario de renta (todas las unidades)')+'</span><select data-k="rent">'+opts+'</select></label>'
-        +(st.rent==='custom'?'<label class="f"><span>'+tx('Renta mensual total')+'</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
-        +'<label class="f"><span>'+tx('Impuestos al año')+'</span><div class="inp"><i>$</i><input data-k="tax" type="number" inputmode="decimal" step="50" min="0" value="'+st.tax+'"></div></label>'
-        +'<label class="f"><span>'+tx('Seguro al año (estimado)')+'</span><div class="inp"><i>$</i><input data-k="ins" type="number" inputmode="decimal" step="50" min="0" value="'+st.ins+'"></div></label>'
-        +'<label class="f"><span>'+tx('HOA al año')+'</span><div class="inp"><i>$</i><input data-k="hoa" type="number" inputmode="decimal" step="50" min="0" value="'+(st.hoa||0)+'"></div></label>'
-        +'</div><div class="row"><button class="btn ghost" type="button" data-reset="'+p.id+'">'+tx('Restablecer esta propiedad')+'</button></div></div></details>'
         +'<details><summary>'+tx('Ver el cálculo completo y de dónde salen los datos')+'</summary><div class="in">'
         +'<table class="bd" style="margin-top:8px">'
         +'<tr><td>'+tx('Renta del año')+'</td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td></td><td></td></tr><tr class="sub"><td>'+tx('Impuestos')+'</td><td></td></tr><tr class="sub"><td>'+tx('Seguro')+'</td><td></td></tr><tr class="sub"><td>'+tx('HOA')+'</td><td></td></tr><tr class="t"><td>'+tx('Ganancia neta al año')+'</td><td></td></tr>'
@@ -907,6 +930,10 @@
     rows[4].firstChild.textContent=tx('Reserva grandes reparaciones ({n}%)',{n:a.capex});
     card.querySelector('.js-need').textContent=fmt(c.needRent);
     card.querySelector('.js-max').textContent=c.maxPrice>0?fmt(c.maxPrice):tx('No aplica');
+    var r2=card.querySelector('.js-rent2');if(r2)r2.textContent=fmt(c.rentM);
+    var i2=card.querySelector('.js-ins2');if(i2)i2.textContent=fmt(c.ins);
+    var t2=card.querySelector('.js-tax2');if(t2)t2.textContent=fmt(c.tax);
+    var h2=card.querySelector('.js-hoa2');if(h2)h2.textContent=c.hoa>0?fmt(c.hoa):tx('Sin HOA');
     var q=state.qty[p.id]||0; card.querySelector('.js-q').textContent=q;
     card.querySelector('[data-q="-1"]').disabled=q<=0; card.querySelector('[data-q="1"]').disabled=q>=5;
   }
@@ -1016,6 +1043,8 @@
 
   var props=$('props');
   props.addEventListener('click',function(e){
+    var op=e.target.closest('[data-open]');
+    if(op){var idp=op.closest('.prop').getAttribute('data-p'),kp=op.getAttribute('data-open'),cardp=op.closest('.prop');OPEN[idp]=(OPEN[idp]===kp)?null:kp;[].forEach.call(cardp.querySelectorAll('.adjpanel'),function(pn){pn.hidden=(pn.getAttribute('data-panel')!==OPEN[idp]);});[].forEach.call(cardp.querySelectorAll('[data-open]'),function(bn){bn.setAttribute('aria-expanded',String(bn.getAttribute('data-open')===OPEN[idp]));});return;}
     var ask0=e.target.closest('[data-asking]');
     if(ask0){var ida=ask0.getAttribute('data-asking'),pa=PROPS.filter(function(x){return x.id===ida;})[0];state.props[ida].offer=pa.price;save();var inA=ask0.closest('.prop').querySelector('input[data-k="offer"]');if(inA)inA.value=Math.round(pa.price);updateAll();return;}
     var q=e.target.closest('[data-q]');

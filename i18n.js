@@ -237,10 +237,7 @@ window.I18N_EN = {
  "escribe cuánto ofrecerías por la propiedad.": "enter how much you would offer for the property.",
  "La renta:": "The rent:",
  "elige un escenario o escribe la renta que esperas.": "choose a scenario or enter the rent you expect.",
- "Seguro e impuestos:": "Insurance and taxes:",
- "cámbialos cuando tengas cotizaciones reales.": "change them when you have real quotes.",
  "Y más:": "And more:",
- "la cuota de HOA, los porcentajes de gastos, tu meta de retorno y el crecimiento a futuro.": "the HOA fee, the expense percentages, your return goal and future growth.",
  "Todo se recalcula solo, y con los botones \"Restablecer\" puedes volver a los números originales.": "Everything recalculates on its own, and with the \"Reset\" buttons you can go back to the original numbers.",
  "Ir a las propiedades y poner mi oferta": "Go to the properties and enter my offer",
  "Cada propiedad crece con el promedio histórico de renta y de valor de las casas de su pueblo. Puedes cambiar cualquier número.": "Each property grows with the historical average of rent and home values in its town. You can change any number.",
@@ -263,5 +260,16 @@ window.I18N_EN = {
  "guárdalos en un PDF y envíanoslo por correo a Francisco y Maria. Paso 1: toca \"Guardar en PDF\". Paso 2: toca \"Enviar el PDF por correo\" y adjunta el archivo que guardaste.": "save them as a PDF and email it to Francisco and Maria. Step 1: tap \"Save as PDF\". Step 2: tap \"Send the PDF by email\" and attach the file you saved.",
  "Enviar el PDF por correo": "Send the PDF by email",
  "PDF con mis números del comparador de inversión (Marco)": "PDF with my numbers from the investment comparison (Marco)",
- "Adjunto el PDF con mis números del comparador de inversión.": "I am attaching the PDF with my numbers from the investment comparison."
+ "Adjunto el PDF con mis números del comparador de inversión.": "I am attaching the PDF with my numbers from the investment comparison.",
+ "El seguro:": "The insurance:",
+ "es un estimado, cámbialo cuando tengas una cotización real.": "it is an estimate, change it when you have a real quote.",
+ "los porcentajes de gastos, tu meta de retorno y el crecimiento a futuro. Los impuestos y la cuota de HOA vienen de los registros y documentos del anuncio, no hace falta ajustarlos.": "the expense percentages, your return goal and future growth. The taxes and the HOA fee come from the listing records and documents, you do not need to adjust them.",
+ "Lo que puedes ajustar": "What you can adjust",
+ "Ajustar": "Adjust",
+ "Estimado con la tasa del condado, porque el MLS no lo publica. No hace falta ajustarlo.": "Estimated with the county rate, because the MLS does not publish it. You do not need to adjust it.",
+ "Según el MLS (año fiscal 2025). No hace falta ajustarlo.": "From the MLS (tax year 2025). You do not need to adjust it.",
+ "Según los documentos del anuncio. No hace falta ajustarla.": "From the listing documents. You do not need to adjust it.",
+ "Es un estimado. Cámbialo cuando tengas una cotización real de un agente de seguros.": "It is an estimate. Change it when you have a real quote from an insurance agent.",
+ "Restablecer a los valores originales": "Reset to the original values",
+ "Sin HOA": "No HOA"
 };
