@@ -432,7 +432,7 @@
   <span class="sp"></span><div class="langsw" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" class="on">ES</button><button type="button" data-lang="en">EN</button></div><button type="button" id="print" data-act="pdf">Guardar PDF</button>
 </div></nav>
 
-<div class="shared" id="shared" hidden><div class="wrap"><span>Estás viendo los números guardados en este enlace.</span><button type="button" class="btn sm" id="sharedreset">Volver a los números originales</button></div></div>
+
 <main class="wrap">
 
   <section style="padding-top:36px">
@@ -446,8 +446,8 @@
         <li><b>Y más:</b> la cuota de HOA, los porcentajes de gastos, tu meta de retorno y el crecimiento a futuro.</li>
       </ul>
       <p class="ctl-foot">Todo se recalcula solo, y con los botones "Restablecer" puedes volver a los números originales.</p>
-      <p class="ctl-foot" style="margin-top:0"><b style="color:var(--gold-2)">Cuando estés conforme con tus números:</b> guárdalos en PDF o envíanos tus números por correo a Francisco y Maria, con los botones de abajo.</p>
-      <div class="row" style="margin-top:6px"><a class="btn gold" href="#propiedades">Ir a las propiedades y poner mi oferta</a><button class="btn" type="button" data-act="pdf" style="background:rgba(255,255,255,.14)">Guardar en PDF</button><button class="btn" type="button" data-act="mail" style="background:rgba(255,255,255,.14)">Enviarnos mis números</button></div>
+      <p class="ctl-foot" style="margin-top:0"><b style="color:var(--gold-2)">Cuando estés conforme con tus números:</b> guárdalos en un PDF y envíanoslo por correo a Francisco y Maria. Paso 1: toca "Guardar en PDF". Paso 2: toca "Enviar el PDF por correo" y adjunta el archivo que guardaste.</p>
+      <div class="row" style="margin-top:6px"><a class="btn gold" href="#propiedades">Ir a las propiedades y poner mi oferta</a><button class="btn" type="button" data-act="pdf" style="background:rgba(255,255,255,.14)">Guardar en PDF</button><button class="btn" type="button" data-act="mail" style="background:rgba(255,255,255,.14)">Enviar el PDF por correo</button></div>
     </div>
     <div class="steps rv" style="margin-top:18px">
       <div class="step"><div class="n">1</div><b>Mira el resultado</b><p>Cada propiedad tiene una gráfica con su retorno neto estimado en el centro.</p></div>
@@ -595,7 +595,7 @@
     <div class="panel dark contact rv">
       <h2>¿Tienes preguntas?</h2>
       <p class="lead">Hablamos español e inglés. Escríbenos por WhatsApp, llámanos o mándanos un correo.</p>
-      <div class="row" style="margin:0 0 16px"><button class="btn gold" type="button" data-act="mail">Enviarnos mis números</button><button class="btn" type="button" data-act="pdf" style="background:rgba(255,255,255,.14)">Guardar en PDF</button></div>
+      <div class="row" style="margin:0 0 16px"><button class="btn gold" type="button" data-act="mail">Enviar el PDF por correo</button><button class="btn" type="button" data-act="pdf" style="background:rgba(255,255,255,.14)">Guardar en PDF</button></div>
       <div class="cgrid">
         <div class="cperson"><img src="assets/francisco.png" alt="Francisco Rodriguez"><div><b>Francisco Rodriguez</b><small>REALTOR® · English &amp; Español</small><a class="wa" href="https://wa.me/19194267984" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+19194267984">919-426-7984</a><a href="mailto:fjrodriguez@kw.com">fjrodriguez@kw.com</a><a href="https://www.fjrodriguez.com" target="_blank" rel="noopener">www.fjrodriguez.com</a></div></div>
         <div class="cperson"><img src="assets/maria.png" alt="Maria Rodriguez"><div><b>Maria Rodriguez</b><small>REALTOR® · English &amp; Español</small><a class="wa" href="https://wa.me/19196715108" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+19196715108">919-671-5108</a><a href="mailto:marialrodriguez@kw.com">marialrodriguez@kw.com</a><a href="https://www.marialrodriguez.com" target="_blank" rel="noopener">www.marialrodriguez.com</a></div></div>
@@ -1096,51 +1096,19 @@
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(b)setLang(b.getAttribute('data-lang'));});
 
-  /* ---- compartir mis números ---- */
-  function shareState(){
-    var o={a:state.assume,b:state.budget,e:state.egrowth,y:state.years,l:LANG,p:{},q:state.qty,g:state.pg,v:state.pv};
-    PROPS.forEach(function(p){var st=state.props[p.id];o.p[p.id]=[st.offer,st.rent,st.custom,st.tax,st.ins,st.hoa];});
-    return o;
-  }
-  function shareLink(){
-    var j=JSON.stringify(shareState());
-    return location.origin+location.pathname+'#s='+encodeURIComponent(btoa(unescape(encodeURIComponent(j))));
-  }
-  function loadShared(){
-    try{
-      var m=/^#s=(.+)$/.exec(location.hash);if(!m)return false;
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
-      if(o.a)state.assume=merge(state.assume,o.a);
-      if(o.b!=null)state.budget=o.b;if(o.e!=null)state.egrowth=o.e;if(o.y!=null)state.years=o.y;
-      PROPS.forEach(function(p){var v=o.p&&o.p[p.id];if(v){var st=state.props[p.id];st.offer=v[0];st.rent=v[1];st.custom=v[2];st.tax=v[3];st.ins=v[4];st.hoa=v[5];}
-        if(o.q&&o.q[p.id]!=null)state.qty[p.id]=o.q[p.id];if(o.g&&o.g[p.id]!=null)state.pg[p.id]=o.g[p.id];if(o.v&&o.v[p.id]!=null)state.pv[p.id]=o.v[p.id];});
-      return true;
-    }catch(e){return false;}
-  }
+  /* ---- enviar el PDF por correo ---- */
   function mailBody(){
-    var L=[],cash=0,net=0,qn=0;
-    L.push(tx('Hola Francisco y Maria,'));L.push('');L.push(tx('Estos son los números que armé en el comparador:'));L.push('');
-    PROPS.forEach(function(p){
-      var c=calc(p),q=state.qty[p.id]||0;if(q){cash+=c.cash*q;net+=c.noi*q;qn+=q;}
-      L.push(p.name+(q?' x'+q:'')+': '+tx('oferta {o} (piden {p}), renta {r} al mes, retorno neto {x}',{o:fmt(c.offer),p:fmt(p.price),r:fmt(c.rentM),x:pct(c.ret)}));
-    });
-    L.push('');
-    if(qn){L.push(tx('Mi portafolio: inversión total {c}, ganancia {m} al mes, retorno neto {r}',{c:fmt(cash),m:fmt(net/12),r:pct(cash>0?net/cash:0)}));L.push('');}
-    L.push(tx('Aquí está el comparador con todos mis números (seguro, impuestos y más):'));L.push(shareLink());L.push('');L.push(tx('Gracias,'));L.push('Marco');
-    return L.join('\n');
+    return [tx('Hola Francisco y Maria,'),'',tx('Adjunto el PDF con mis números del comparador de inversión.'),'',tx('Gracias,'),'Marco'].join('\n');
   }
   function sendMail(){
-    var to='fjrodriguez@kw.com,marialrodriguez@kw.com',sub=tx('Mis números del comparador de inversión (Marco)');
+    var to='fjrodriguez@kw.com,marialrodriguez@kw.com',sub=tx('PDF con mis números del comparador de inversión (Marco)');
     var body=mailBody();window.__lastMail={to:to,sub:sub,body:body};
     location.href='mailto:'+to+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body);
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b)return;var a=b.getAttribute('data-act');if(a==='pdf')window.print();else if(a==='mail')sendMail();});
-  $('sharedreset').addEventListener('click',function(){try{localStorage.removeItem(KEY);}catch(e){}location.href=location.pathname;});
 
-  var wasShared=loadShared();
   var PRINTMODE=/[?&]print=1/.test(location.search);
   buildMap();renderAssume();renderAll();applyStatic();
-  if(wasShared){$('shared').hidden=false;}
   if(PRINTMODE){document.querySelectorAll('details').forEach(function(d){d.open=true;});document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});document.querySelectorAll('.prop').forEach(function(c){c.classList.add('seen');});PROPS.forEach(updateCard);}
   /* respaldo: si el navegador no dispara las animaciones, mostrar todo */
   setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(e){if(e.getBoundingClientRect().top<window.innerHeight*1.3)e.classList.add('in');});},900);

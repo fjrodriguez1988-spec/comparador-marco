@@ -257,16 +257,11 @@ window.I18N_EN = {
  "Cómo se calcula: tomamos la ganancia del primer año de cada propiedad, hacemos crecer la renta cada año con el promedio histórico de su pueblo y los gastos fijos con la inflación. El valor de cada propiedad crece cada año con el promedio histórico de valor de las casas de su pueblo, partiendo de lo que pagarías (tu oferta). No incluye los costos de venta, ni impuestos sobre la renta o las ganancias, ni cambios en el mercado.": "How it is calculated: we take each property's first-year profit, grow the rent every year with the historical average of its town and the fixed costs with inflation. Each property's value grows every year with the historical average of home values in its town, starting from what you would pay (your offer). It does not include selling costs, income or capital gains taxes, or market changes.",
  "Datos de Zillow Research (índices de renta ZORI y de valor de casas ZHVI, hasta septiembre de 2026). Usamos el promedio de los últimos 5 años y de los últimos 3 años, porque 2020 a 2022 fue un periodo fuera de lo normal. Los gastos fijos suben 3% al año, cerca de la inflación reciente (BLS). No usamos el crecimiento de la población.": "Data from Zillow Research (ZORI rent index and ZHVI home value index, through September 2026). We use the average of the last 5 years and the last 3 years, because 2020 to 2022 was an unusual period. Fixed costs rise 3% per year, close to recent inflation (BLS). We do not use population growth.",
  "Cuando estés conforme con tus números:": "Once you are happy with your numbers:",
- "guárdalos en PDF o envíanos tus números por correo a Francisco y Maria, con los botones de abajo.": "save them as a PDF or email your numbers to Francisco and Maria, with the buttons below.",
  "Guardar en PDF": "Save as PDF",
- "Enviarnos mis números": "Send us my numbers",
- "Estás viendo los números guardados en este enlace.": "You are viewing the numbers saved in this link.",
- "Volver a los números originales": "Back to the original numbers",
  "Hola Francisco y Maria,": "Hi Francisco and Maria,",
- "Estos son los números que armé en el comparador:": "These are the numbers I put together in the comparison tool:",
- "Mi portafolio: inversión total {c}, ganancia {m} al mes, retorno neto {r}": "My portfolio: total investment {c}, profit {m} per month, net return {r}",
  "Gracias,": "Thanks,",
- "Mis números del comparador de inversión (Marco)": "My numbers from the investment comparison (Marco)",
- "oferta {o} (piden {p}), renta {r} al mes, retorno neto {x}": "offer {o} (asking {p}), rent {r} per month, net return {x}",
- "Aquí está el comparador con todos mis números (seguro, impuestos y más):": "Here is the comparison tool with all my numbers (insurance, taxes and more):"
+ "guárdalos en un PDF y envíanoslo por correo a Francisco y Maria. Paso 1: toca \"Guardar en PDF\". Paso 2: toca \"Enviar el PDF por correo\" y adjunta el archivo que guardaste.": "save them as a PDF and email it to Francisco and Maria. Step 1: tap \"Save as PDF\". Step 2: tap \"Send the PDF by email\" and attach the file you saved.",
+ "Enviar el PDF por correo": "Send the PDF by email",
+ "PDF con mis números del comparador de inversión (Marco)": "PDF with my numbers from the investment comparison (Marco)",
+ "Adjunto el PDF con mis números del comparador de inversión.": "I am attaching the PDF with my numbers from the investment comparison."
 };
