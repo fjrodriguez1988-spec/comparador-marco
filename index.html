@@ -84,6 +84,16 @@
   .step .n{font-family:'Poppins',Arial,sans-serif;font-size:46px;font-weight:800;color:var(--gold);line-height:1;opacity:.9}
   .step b{display:block;font-family:'Poppins',Arial,sans-serif;font-size:16px;margin:6px 0 2px}
   .step p{margin:0;color:var(--soft);font-size:13px}
+  .shared{background:var(--gold);color:var(--navy);font-size:13.5px;font-weight:600}
+  .shared .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+  .shared .btn{background:var(--navy);color:#fff}
+  .ctl{background:linear-gradient(160deg,var(--navy-3) 0%,var(--navy) 60%,var(--navy-2) 100%);color:#fff;border-radius:20px;padding:24px 26px;border-bottom:4px solid var(--gold);box-shadow:0 18px 50px rgba(12,44,66,.22)}
+  .ctl h2{color:#fff;font-size:24px}
+  .ctl p{color:#D5DEE5;margin:8px 0 0;max-width:70ch}
+  .ctl ul{margin:12px 0 0;padding-left:20px;color:#fff;font-size:14.5px}
+  .ctl li{margin:6px 0}
+  .ctl li b{color:var(--gold-2)}
+  .ctl .ctl-foot{font-size:13px;margin:12px 0 14px}
   .est{background:var(--gold-bg);border:1px solid #E9D5A3;border-left:6px solid var(--gold);border-radius:14px;padding:20px 22px}
   .est h2{font-size:19px}
   .est ul{margin:10px 0 0;padding-left:20px;font-size:14px}
@@ -257,6 +267,7 @@
   .offerbox .inp i{font-size:20px;font-weight:700;color:var(--navy)}
   .offerbox .ob-diff{grid-column:1/-1;margin:0;font-size:13.5px;font-weight:600;color:var(--gold-ink)}
   .btn.sm{padding:8px 12px;font-size:12.5px}
+  .dark .btn.ghost{color:#fff;border-color:rgba(255,255,255,.35)}
   .key .cs{display:block;color:var(--soft);font-size:11.5px;margin-top:2px;line-height:1.3}
   .goal{margin:16px 0 0}
   .goal .gtop{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:6px;flex-wrap:wrap}
@@ -324,8 +335,17 @@
   .chart text{fill:#C7D3DC;font-size:11px;font-family:Montserrat,Arial,sans-serif}
   .chart .ar{fill:url(#gg)}
   .chart .ln{fill:none;stroke:var(--gold-2);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .chart .ln2{fill:none;stroke:#7FC4E8;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1 0}
   .chart .cash{stroke:#fff;stroke-dasharray:5 5;stroke-width:1.5;opacity:.8}
   .chart .grid{stroke:rgba(255,255,255,.1)}
+  .gdet{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);margin:12px 0 0}
+  .gdet>summary{color:#fff}
+  .gdet>summary::after{color:var(--gold-2)}
+  .grow{display:grid;grid-template-columns:1fr 110px 110px;gap:10px 12px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .grow.gh{font-size:12px;color:#C7D3DC;font-weight:600;border-bottom:0;padding-bottom:0}
+  @media (max-width:560px){.grow{grid-template-columns:1fr 84px 84px}.grow .inp{padding:0 8px}}
+  .grow b{font-family:'Poppins',Arial,sans-serif;font-size:14px;display:block}
+  .grow small{color:#C7D3DC;font-size:11.5px;display:block;line-height:1.35}
   .projout{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}
   .projout>div{flex:1 1 200px;background:rgba(255,255,255,.07);border-radius:12px;padding:12px 14px}
   .projout small{display:block;color:#C7D3DC;font-size:12px}
@@ -360,7 +380,7 @@
   .modal .acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
   @media print{
-    .nav,.fab,.orb,.grid-bg,.modal,.step2,button.btn,.seg3{display:none!important}
+    .nav,.fab,.orb,.grid-bg,.modal,.step2,button.btn,.seg3,.langsw,.shared,.mapbox iframe,[data-act],.ctl .row{display:none!important}
     body{background:#fff}
     .rv{opacity:1!important;transform:none!important}
     .prop,.panel,.dark{box-shadow:none!important;break-inside:avoid}
@@ -406,13 +426,27 @@
 
 <nav class="nav" aria-label="Secciones"><div class="wrap">
   <a href="#resumen">Resumen</a><a href="#mapa">Mapa</a><a href="#propiedades">Propiedades</a><a href="#portafolio">Mi portafolio</a><a href="#glosario">Glosario</a><a href="#contacto">Contacto</a>
-  <span class="sp"></span><div class="langsw" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" class="on">ES</button><button type="button" data-lang="en">EN</button></div><button type="button" id="print">Guardar PDF</button>
+  <span class="sp"></span><div class="langsw" role="group" aria-label="Idioma / Language"><button type="button" data-lang="es" class="on">ES</button><button type="button" data-lang="en">EN</button></div><button type="button" id="print" data-act="pdf">Guardar PDF</button>
 </div></nav>
 
+<div class="shared" id="shared" hidden><div class="wrap"><span>Estás viendo los números guardados en este enlace.</span><button type="button" class="btn sm" id="sharedreset">Volver a los números originales</button></div></div>
 <main class="wrap">
 
   <section style="padding-top:36px">
-    <div class="steps rv">
+    <div class="ctl rv">
+      <h2>Tú controlas los números</h2>
+      <p>Por defecto calculamos todo con el precio que piden. Pero el precio es negociable: en cada propiedad puedes escribir tu propia oferta y ver al instante cómo cambia tu retorno.</p>
+      <ul>
+        <li><b>Tu oferta:</b> escribe cuánto ofrecerías por la propiedad.</li>
+        <li><b>La renta:</b> elige un escenario o escribe la renta que esperas.</li>
+        <li><b>Seguro e impuestos:</b> cámbialos cuando tengas cotizaciones reales.</li>
+        <li><b>Y más:</b> la cuota de HOA, los porcentajes de gastos, tu meta de retorno y el crecimiento a futuro.</li>
+      </ul>
+      <p class="ctl-foot">Todo se recalcula solo, y con los botones "Restablecer" puedes volver a los números originales.</p>
+      <p class="ctl-foot" style="margin-top:0"><b style="color:var(--gold-2)">Cuando estés conforme con tus números:</b> guárdalos en PDF o envíanos tus números por correo a Francisco y Maria, con los botones de abajo.</p>
+      <div class="row" style="margin-top:6px"><a class="btn gold" href="#propiedades">Ir a las propiedades y poner mi oferta</a><button class="btn" type="button" data-act="pdf" style="background:rgba(255,255,255,.14)">Guardar en PDF</button><button class="btn" type="button" data-act="mail" style="background:rgba(255,255,255,.14)">Enviarnos mis números</button></div>
+    </div>
+    <div class="steps rv" style="margin-top:18px">
       <div class="step"><div class="n">1</div><b>Mira el resultado</b><p>Cada propiedad tiene una gráfica con su retorno neto estimado en el centro.</p></div>
       <div class="step"><div class="n">2</div><b>Juega con los números</b><p>Cambia la renta, los gastos o el precio. Todo se recalcula solo.</p></div>
       <div class="step"><div class="n">3</div><b>Arma tu portafolio</b><p>Agrega las propiedades que te gusten y mira cuánto ganarías en total.</p></div>
@@ -520,14 +554,18 @@
         <p class="lead" style="margin:6px 0 0">Es una simulación con los números de arriba. No es una predicción ni una promesa.</p>
         <div class="projctl">
           <div><div class="rlabel"><span>Años a ver</span><b id="yrsv">10</b></div><input type="range" id="pf_years" min="1" max="10" step="1"></div>
-          <label class="f"><span>Crecimiento anual de la ganancia<small>0% es la opción más conservadora</small></span><div class="inp"><input id="pf_growth" type="number" inputmode="decimal" step="0.5" min="-10" max="15"><i>%</i></div></label>
+          <label class="f"><span>Aumento anual de gastos fijos<small>Impuestos, seguro y HOA. Aprox. la inflación de los últimos años.</small></span><div class="inp"><input id="pf_egrowth" type="number" inputmode="decimal" step="0.5" min="-10" max="15"><i>%</i></div></label>
         </div>
+        <details id="gdet" class="gdet" open><summary>Crecimiento de la renta y del valor por pueblo</summary><div class="in"><p class="note" style="margin-top:6px">Cada propiedad crece con el promedio histórico de renta y de valor de las casas de su pueblo. Puedes cambiar cualquier número.</p><div id="growrows"></div><p class="note">Datos de Zillow Research (índices de renta ZORI y de valor de casas ZHVI, hasta septiembre de 2026). Usamos el promedio de los últimos 5 años y de los últimos 3 años, porque 2020 a 2022 fue un periodo fuera de lo normal. Los gastos fijos suben 3% al año, cerca de la inflación reciente (BLS). No usamos el crecimiento de la población.</p><div class="row"><button class="btn ghost" id="resetproj" type="button">Restablecer proyección</button></div></div></details>
+        <div class="legendrow" style="margin-top:14px;color:#D5DEE5"><span><i style="background:var(--gold-2)"></i>Ganancia acumulada solo por renta</span><span><i style="background:#7FC4E8"></i>Renta + aumento de valor de las propiedades</span></div>
         <svg class="chart" id="chart" viewBox="0 0 640 250" role="img" aria-label="Ganancia acumulada contra efectivo invertido"></svg>
         <div class="projout">
           <div><small>Ganancia acumulada en <span id="yrs2">10</span> años</small><strong id="pjcum">$0</strong></div>
-          <div><small>Recuperarías tu efectivo en aprox.</small><strong id="pjpay">—</strong></div>
+          <div><small>Recuperarías tu efectivo con la renta en aprox.</small><strong id="pjpay">—</strong></div>
+          <div><small>Valor estimado de tus propiedades en <span id="yrs3">10</span> años</small><strong id="pjval">$0</strong></div>
+          <div><small>Ganancia total estimada en <span id="yrs4">10</span> años <span>(renta + aumento de valor)</span></small><strong id="pjtot">$0</strong></div>
         </div>
-        <p class="note" style="margin-top:12px">No incluye el valor de la propiedad en el futuro, ni impuestos sobre la renta, ni cambios en el mercado.</p>
+        <p class="note" style="margin-top:12px">Cómo se calcula: tomamos la ganancia del primer año de cada propiedad, hacemos crecer la renta cada año con el promedio histórico de su pueblo y los gastos fijos con la inflación. El valor de cada propiedad crece cada año con el promedio histórico de valor de las casas de su pueblo, partiendo de lo que pagarías (tu oferta). No incluye los costos de venta, ni impuestos sobre la renta o las ganancias, ni cambios en el mercado.</p>
       </div>
     </div>
   </section>
@@ -554,6 +592,7 @@
     <div class="panel dark contact rv">
       <h2>¿Tienes preguntas?</h2>
       <p class="lead">Hablamos español e inglés. Escríbenos por WhatsApp, llámanos o mándanos un correo.</p>
+      <div class="row" style="margin:0 0 16px"><button class="btn gold" type="button" data-act="mail">Enviarnos mis números</button><button class="btn" type="button" data-act="pdf" style="background:rgba(255,255,255,.14)">Guardar en PDF</button></div>
       <div class="cgrid">
         <div class="cperson"><img src="assets/francisco.png" alt="Francisco Rodriguez"><div><b>Francisco Rodriguez</b><small>REALTOR® · English &amp; Español</small><a class="wa" href="https://wa.me/19194267984" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+19194267984">919-426-7984</a><a href="mailto:fjrodriguez@kw.com">fjrodriguez@kw.com</a><a href="https://www.fjrodriguez.com" target="_blank" rel="noopener">www.fjrodriguez.com</a></div></div>
         <div class="cperson"><img src="assets/maria.png" alt="Maria Rodriguez"><div><b>Maria Rodriguez</b><small>REALTOR® · English &amp; Español</small><a class="wa" href="https://wa.me/19196715108" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+19196715108">919-671-5108</a><a href="mailto:marialrodriguez@kw.com">marialrodriguez@kw.com</a><a href="https://www.marialrodriguez.com" target="_blank" rel="noopener">www.marialrodriguez.com</a></div></div>
@@ -588,12 +627,14 @@
 <script>
 (function(){
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DEF = {assume:{mgmt:10,maint:8,vac:6,capex:0,close:2.5,goal:7}, budget:1000000, growth:0, years:10};
+  var DEF = {assume:{mgmt:10,maint:8,vac:6,capex:0,close:2.5,goal:7}, budget:1000000, egrowth:3, years:10};
   var PROPS = window.PROPS || [];
   var KEY='comparador-inversion-v1';
-  var state={assume:clone(DEF.assume),props:{},qty:{},budget:DEF.budget,growth:DEF.growth,years:DEF.years};
+  var state={assume:clone(DEF.assume),props:{},qty:{},pg:{},pv:{},budget:DEF.budget,egrowth:DEF.egrowth,years:DEF.years};
   function defProp(p){return {offer:p.price,rent:'median',custom:p.rents[0].v,tax:p.tax,ins:p.ins,hoa:p.hoa||0,price:p.price};}
-  PROPS.forEach(function(p){state.props[p.id]=defProp(p);state.qty[p.id]=0;});
+  function defPg(p){return (p.grow&&p.grow.rent!=null)?p.grow.rent:0;}
+  function defPv(p){return (p.grow&&p.grow.value!=null)?p.grow.value:0;}
+  PROPS.forEach(function(p){state.props[p.id]=defProp(p);state.qty[p.id]=0;state.pg[p.id]=defPg(p);state.pv[p.id]=defPv(p);});
   try{var s0=JSON.parse(localStorage.getItem(KEY)||'null');if(s0&&s0.assume&&s0.props){state=merge(state,s0);PROPS.forEach(function(p){var o=s0.props[p.id];if(o&&o.offer==null&&o.disc)state.props[p.id].offer=Math.round(p.price*(1-o.disc/100));});}}catch(e){}
   function clone(o){return JSON.parse(JSON.stringify(o));}
   function merge(a,b){for(var k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&a[k]){a[k]=merge(a[k],b[k]);}else{a[k]=b[k];}}return a;}
@@ -648,7 +689,7 @@
   function renderAssume(){
     var m={a_mgmt:'mgmt',a_maint:'maint',a_vac:'vac',a_capex:'capex',a_close:'close',a_goal:'goal'};
     for(var id in m){$(id).value=state.assume[m[id]];}
-    $('pf_budget').value=state.budget; $('pf_growth').value=state.growth; $('pf_years').value=state.years;
+    $('pf_budget').value=state.budget; $('pf_egrowth').value=state.egrowth; $('pf_years').value=state.years;
   }
   function renderChips(){
     var a=state.assume;
@@ -886,15 +927,22 @@
     // fab
     var fab=$('fab');
     if(qn){fab.textContent=tx('Mi portafolio · {v} al mes',{v:fmt(noi/12)});fab.classList.add('show');}else fab.classList.remove('show');
-    renderProj(cash,noi);
+    renderProj(cash);
     heroStats();
   }
-  function renderProj(cash,noi){
-    var N=Math.max(1,Math.min(10,Math.round(num(state.years,10)))), g=num(state.growth,0)/100;
-    $('yrsv').textContent=N;$('yrs2').textContent=N;
+  /* proyección: cada propiedad crece con su pueblo; gastos fijos con la inflación */
+  function noiYear(c,gr,ge,i){var f=Math.pow(1+gr,i-1),h=Math.pow(1+ge,i-1);return (c.gross-(c.mg+c.mt+c.vc+c.cx))*f-(c.tax+c.ins+c.hoa)*h;}
+  function renderProj(cash){
+    var N=Math.max(1,Math.min(10,Math.round(num(state.years,10)))), ge=num(state.egrowth,0)/100;
+    $('yrsv').textContent=N;$('yrs2').textContent=N;$('yrs3').textContent=N;$('yrs4').textContent=N;
+    var items=[];PROPS.forEach(function(p){var q=state.qty[p.id]||0;if(!q)return;items.push({q:q,c:calc(p),gr:num(state.pg[p.id],0)/100,gv:num(state.pv[p.id],0)/100});});
+    function yearNoi(i){var t=0;items.forEach(function(it){t+=it.q*noiYear(it.c,it.gr,ge,i);});return t;}
     var cum=[0],i,t=0;
-    for(i=1;i<=N;i++){t+=noi*Math.pow(1+g,i-1);cum.push(t);}
-    var W=640,H=250,L=58,Rr=16,T=16,B=34, ymax=Math.max(cash,cum[N],1)*1.08, ymin=Math.min(0,Math.min.apply(null,cum))*1.08;
+    for(i=1;i<=N;i++){t+=yearNoi(i);cum.push(t);}
+    var bought=0;items.forEach(function(it){bought+=it.q*it.c.offer;});
+    function valueAt(k){var v=0;items.forEach(function(it){v+=it.q*it.c.offer*Math.pow(1+it.gv,k);});return v;}
+    var tot=cum.map(function(c0,k){return c0+(valueAt(k)-bought);});
+    var W=640,H=250,L=58,Rr=16,T=16,B=34, ymax=Math.max(cash,cum[N],tot[N],1)*1.08, ymin=Math.min(0,Math.min.apply(null,cum),Math.min.apply(null,tot))*1.08;
     var raw=(ymax-ymin)/4,mag=Math.pow(10,Math.floor(Math.log(raw)/Math.LN10)),stp=[1,2,2.5,5,10].map(function(m){return m*mag;}).filter(function(v){return v>=raw;})[0];
     ymax=Math.ceil(ymax/stp)*stp; ymin=Math.floor(ymin/stp)*stp; var ticks=Math.round((ymax-ymin)/stp);
     var X=function(k){return L+(W-L-Rr)*k/N;}, Y=function(v){return T+(H-T-B)*(1-(v-ymin)/(ymax-ymin));};
@@ -903,25 +951,42 @@
     for(i=0;i<=N;i++){h+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle">'+i+'</text>';}
     if(cash>0)h+='<line class="cash" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(cash)+'" y2="'+Y(cash)+'"/><text x="'+(W-Rr)+'" y="'+(Y(cash)-6)+'" text-anchor="end" style="fill:#fff">'+tx('Efectivo invertido')+'</text>';
     var pts=cum.map(function(v,k){return X(k)+','+Y(v);}).join(' ');
-    h+='<polygon class="ar" points="'+X(0)+','+Y(0)+' '+pts+' '+X(N)+','+Y(0)+'"/><polyline class="ln" points="'+pts+'"/>';
+    var pts2=tot.map(function(v,k){return X(k)+','+Y(v);}).join(' ');
+    h+='<polygon class="ar" points="'+X(0)+','+Y(0)+' '+pts+' '+X(N)+','+Y(0)+'"/><polyline class="ln" points="'+pts+'"/><polyline class="ln2" points="'+pts2+'"/>';
     cum.forEach(function(v,k){if(k>0)h+='<circle cx="'+X(k)+'" cy="'+Y(v)+'" r="3.5" fill="#E8C77A"/>';});
     h+='<text x="'+((W+L)/2)+'" y="'+(H-0)+'" text-anchor="middle" style="font-size:10px">'+tx('años')+'</text>';
     $('chart').innerHTML=h;
     tween($('pjcum'),cum[N],fmt);
+    tween($('pjval'),valueAt(N),fmt);
+    tween($('pjtot'),tot[N],fmt);
     var pay='—';
-    if(cash>0&&noi>0){var tt=0,yy=0;while(tt<cash&&yy<60){yy++;tt+=noi*Math.pow(1+g,yy-1);} if(tt>=cash){var prev=tt-noi*Math.pow(1+g,yy-1);pay=tx('aprox. {n} años',{n:(yy-1+(cash-prev)/(tt-prev)).toFixed(1)});}else pay=tx('más de 60 años');}
-    else if(cash>0)pay=tx('no se recupera con estos números');
+    if(cash>0){
+      var tt=0,yy=0,last=0;
+      while(tt<cash&&yy<60){yy++;last=yearNoi(yy);tt+=last;}
+      if(tt>=cash){var prev=tt-last;pay=tx('aprox. {n} años',{n:(yy-1+(cash-prev)/(tt-prev)).toFixed(1)});}
+      else pay=(yearNoi(1)>0)?tx('más de 60 años'):tx('no se recupera con estos números');
+    }
     $('pjpay').textContent=pay;
   }
 
-  function renderAll(){renderSummary();renderProps();updateMap();renderPortfolio();}
+  function renderGrowth(){
+    $('growrows').innerHTML='<div class="grow gh"><div></div><div>'+tx('Renta por año')+'</div><div>'+tx('Valor por año')+'</div></div>'+PROPS.map(function(p){
+      var g=p.grow||{},src=(LANG==='en'&&g.srcEn)?g.srcEn:g.src;
+      return '<div class="grow"><div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>'+(src?tx('Fuente:')+' '+src:'')+'</small></div>'
+        +'<div class="inp"><input data-pg="'+p.id+'" type="number" inputmode="decimal" step="0.1" min="-10" max="20" value="'+state.pg[p.id]+'" aria-label="'+tx('Crecimiento anual de la renta por pueblo')+'"><i>%</i></div>'
+        +'<div class="inp"><input data-pv="'+p.id+'" type="number" inputmode="decimal" step="0.1" min="-10" max="20" value="'+state.pv[p.id]+'" aria-label="'+tx('Crecimiento anual del valor de la propiedad')+'"><i>%</i></div></div>';
+    }).join('');
+  }
+  function renderAll(){renderSummary();renderProps();renderGrowth();updateMap();renderPortfolio();}
   function updateAll(){renderSummary();PROPS.forEach(updateCard);updateMap();renderPortfolio();}
 
   /* global inputs */
   var map={a_mgmt:'mgmt',a_maint:'maint',a_vac:'vac',a_capex:'capex',a_close:'close',a_goal:'goal'};
   Object.keys(map).forEach(function(id){$(id).addEventListener('input',function(){state.assume[map[id]]=num(this.value,0);save();updateAll();});});
   $('pf_budget').addEventListener('input',function(){state.budget=num(this.value,0);save();renderPortfolio();});
-  $('pf_growth').addEventListener('input',function(){state.growth=num(this.value,0);save();renderPortfolio();});
+  $('pf_egrowth').addEventListener('input',function(){state.egrowth=num(this.value,0);save();renderPortfolio();});
+  $('growrows').addEventListener('input',function(e){var id=e.target.getAttribute('data-pg'),iv=e.target.getAttribute('data-pv');if(id)state.pg[id]=num(e.target.value,0);else if(iv)state.pv[iv]=num(e.target.value,0);else return;save();renderPortfolio();});
+  $('resetproj').addEventListener('click',function(){state.egrowth=DEF.egrowth;state.years=DEF.years;PROPS.forEach(function(p){state.pg[p.id]=defPg(p);state.pv[p.id]=defPv(p);});save();renderAssume();renderGrowth();renderPortfolio();});
   $('pf_years').addEventListener('input',function(){state.years=num(this.value,10);save();renderPortfolio();});
   $('scn').addEventListener('click',function(e){
     var b=e.target.closest('[data-sc]');if(!b)return;var k=b.getAttribute('data-sc');
@@ -939,8 +1004,8 @@
   $('myes').addEventListener('click',function(){var f=pending;closeAsk();if(f)f();});
   $('reset').addEventListener('click',function(){
     ask(tx('Se borrarán todos los cambios que hiciste (porcentajes, rentas, impuestos, seguro, ofertas y tu portafolio) y volverán los valores originales. ¿Quieres continuar?'),function(){
-      state.assume=clone(DEF.assume);state.budget=DEF.budget;state.growth=DEF.growth;state.years=DEF.years;
-      PROPS.forEach(function(p){state.props[p.id]=defProp(p);state.qty[p.id]=0;});
+      state.assume=clone(DEF.assume);state.budget=DEF.budget;state.egrowth=DEF.egrowth;state.years=DEF.years;
+      PROPS.forEach(function(p){state.props[p.id]=defProp(p);state.qty[p.id]=0;state.pg[p.id]=defPg(p);state.pv[p.id]=defPv(p);});
       save();renderAssume();renderAll();
     });
   });
@@ -993,8 +1058,9 @@
   $('bars').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)goTo(b.getAttribute('data-go'));});
   $('mapinfo').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)goTo(b.getAttribute('data-go'));});
   $('fab').addEventListener('click',function(){$('portafolio').scrollIntoView({behavior:RM?'auto':'smooth'});});
-  $('print').addEventListener('click',function(){window.print();});
-  window.addEventListener('beforeprint',function(){document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});document.querySelectorAll('.prop').forEach(function(c){c.classList.add('seen');});PROPS.forEach(updateCard);});
+  var printOpen=[];
+  window.addEventListener('afterprint',function(){document.querySelectorAll('details').forEach(function(d,i){if(printOpen[i]===false)d.open=false;});printOpen=[];});
+  window.addEventListener('beforeprint',function(){printOpen=[].map.call(document.querySelectorAll('details'),function(d){return d.open;});document.querySelectorAll('details').forEach(function(d){d.open=true;});document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});document.querySelectorAll('.prop').forEach(function(c){c.classList.add('seen');});PROPS.forEach(updateCard);});
   var links=[].slice.call(document.querySelectorAll('.nav a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
   window.addEventListener('scroll',function(){var pf=$('portafolio').getBoundingClientRect();$('fab').classList.toggle('away',pf.top<window.innerHeight*0.6&&pf.bottom>120);var y=window.scrollY+120,cur=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i;});links.forEach(function(a,i){a.classList.toggle('on',i===cur);});},{passive:true});
 
@@ -1027,7 +1093,56 @@
   }
   document.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(b)setLang(b.getAttribute('data-lang'));});
 
+  /* ---- compartir mis números ---- */
+  function shareState(){
+    var o={a:state.assume,b:state.budget,e:state.egrowth,y:state.years,l:LANG,p:{},q:state.qty,g:state.pg,v:state.pv};
+    PROPS.forEach(function(p){var st=state.props[p.id];o.p[p.id]=[st.offer,st.rent,st.custom,st.tax,st.ins,st.hoa];});
+    return o;
+  }
+  function shareLink(){
+    var j=JSON.stringify(shareState());
+    return location.origin+location.pathname+'#s='+encodeURIComponent(btoa(unescape(encodeURIComponent(j))));
+  }
+  function loadShared(){
+    try{
+      var m=/^#s=(.+)$/.exec(location.hash);if(!m)return false;
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+      if(o.a)state.assume=merge(state.assume,o.a);
+      if(o.b!=null)state.budget=o.b;if(o.e!=null)state.egrowth=o.e;if(o.y!=null)state.years=o.y;
+      PROPS.forEach(function(p){var v=o.p&&o.p[p.id];if(v){var st=state.props[p.id];st.offer=v[0];st.rent=v[1];st.custom=v[2];st.tax=v[3];st.ins=v[4];st.hoa=v[5];}
+        if(o.q&&o.q[p.id]!=null)state.qty[p.id]=o.q[p.id];if(o.g&&o.g[p.id]!=null)state.pg[p.id]=o.g[p.id];if(o.v&&o.v[p.id]!=null)state.pv[p.id]=o.v[p.id];});
+      return true;
+    }catch(e){return false;}
+  }
+  function mailBody(){
+    var L=[],cash=0,net=0,qn=0;
+    L.push(tx('Hola Francisco y Maria,'));L.push('');L.push(tx('Estos son los números que armé en el comparador:'));L.push('');
+    PROPS.forEach(function(p){
+      var c=calc(p),q=state.qty[p.id]||0;if(q){cash+=c.cash*q;net+=c.noi*q;qn+=q;}
+      L.push(p.name+' ('+p.city.split(',')[0]+')'+(q?' x'+q:''));
+      L.push('  '+tx('Oferta {o} (piden {p})',{o:fmt(c.offer),p:fmt(p.price)}));
+      L.push('  '+tx('Renta {r} al mes, seguro {i} al año, impuestos {t} al año, HOA {h} al año',{r:fmt(c.rentM),i:fmt(c.ins),t:fmt(c.tax),h:fmt(c.hoa)}));
+      L.push('  '+tx('Retorno neto {r}, ganancia {m} al mes, inversión total en efectivo {c}',{r:pct(c.ret),m:fmt(c.noi/12),c:fmt(c.cash)}));
+      L.push('');
+    });
+    if(qn){L.push(tx('Mi portafolio: inversión total {c}, ganancia {m} al mes, retorno neto {r}',{c:fmt(cash),m:fmt(net/12),r:pct(cash>0?net/cash:0)}));L.push('');}
+    L.push(tx('Aquí está el comparador con mis números:'));L.push(shareLink());L.push('');L.push(tx('Gracias,'));L.push('Marco');
+    return L.join('\n');
+  }
+  function sendMail(){
+    var to='fjrodriguez@kw.com,marialrodriguez@kw.com',sub=tx('Mis números del comparador de inversión (Marco)');
+    var body=mailBody();window.__lastMail={to:to,sub:sub,body:body};
+    location.href='mailto:'+to+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body);
+  }
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-act]');if(!b)return;var a=b.getAttribute('data-act');if(a==='pdf')window.print();else if(a==='mail')sendMail();});
+  $('sharedreset').addEventListener('click',function(){try{localStorage.removeItem(KEY);}catch(e){}location.href=location.pathname;});
+
+  var wasShared=loadShared();
   buildMap();renderAssume();renderAll();applyStatic();
+  if(wasShared){$('shared').hidden=false;}
+  /* respaldo: si el navegador no dispara las animaciones, mostrar todo */
+  setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(e){if(e.getBoundingClientRect().top<window.innerHeight*1.3)e.classList.add('in');});},900);
+  setTimeout(function(){document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});document.querySelectorAll('.prop:not(.seen)').forEach(function(c){c.classList.add('seen');var p=PROPS.filter(function(x){return x.id===c.getAttribute('data-p');})[0];if(p)updateCard(p);});},6000);
 })();
 </script>
 </body>
