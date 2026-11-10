@@ -123,7 +123,7 @@
   <header>
     <div class="eyebrow">El Dorado Home Group &middot; Keller Williams Realty Cary</div>
     <h1>Comparador de Inversión para Marco</h1>
-    <p>Compara dos dúplex lado a lado y calcula tu retorno neto con tus propios porcentajes. Compra de contado, sin hipoteca.</p>
+    <p>Compara propiedades lado a lado y calcula tu retorno neto con tus propios porcentajes. Compra de contado, sin hipoteca.</p>
   </header>
 
   <section>
@@ -159,7 +159,7 @@
 
   <div class="foot">
     <p><b>Renta:</b> proviene de Rentometer (consulta QuickView). Usamos la mediana de las rentas de propiedades similares cercanas, de los últimos 12 meses. La mediana es el punto medio: la mitad de las rentas comparables está por encima y la otra mitad por debajo. Es una referencia de mercado, no una garantía de lo que se va a rentar.</p>
-    <p><b>Impuestos:</b> son los impuestos reales del último año registrado en el MLS (año fiscal 2025). Son datos históricos y pueden cambiar cuando el condado vuelva a evaluar la propiedad.</p>
+    <p><b>Impuestos:</b> son los impuestos reales del último año registrado en el MLS (año fiscal 2025). Son datos históricos y pueden cambiar cuando el condado vuelva a evaluar la propiedad. Cuando el MLS no publica el impuesto de una propiedad, lo marcamos como estimado y explicamos cómo se calculó.</p>
     <p><b>Seguro:</b> es un estimado para una póliza de arrendador. Te recomendamos pedir cotizaciones reales a un agente de seguros, porque el precio varía según la propiedad, el techo, la zona y tu historial.</p>
     <p><b>Aviso:</b> esta herramienta es solo informativa y no es asesoría financiera, legal ni fiscal. Los datos son del 10 de noviembre de 2026 y el precio o estado de un anuncio puede cambiar. Verifica los datos de cada propiedad antes de tomar una decisión.</p>
     <p class="center">Francisco Rodriguez y Maria Rodriguez<br>El Dorado Home Group &middot; Keller Williams Realty Cary</p>
@@ -180,7 +180,7 @@
   var PROPS = window.PROPS || [];
   var KEY='comparador-inversion-v1';
   var state={assume:clone(DEF.assume),props:{}};
-  function defProp(p){return {disc:0,rent:'median',custom:p.rents[0].v,tax:p.tax,ins:p.ins,price:p.price};}
+  function defProp(p){return {disc:0,rent:'median',custom:p.rents[0].v,tax:p.tax,ins:p.ins,hoa:p.hoa||0,price:p.price};}
   PROPS.forEach(function(p){state.props[p.id]=defProp(p);});
   try{var s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.assume&&s.props){state=merge(state,s);}}catch(e){}
   function clone(o){return JSON.parse(JSON.stringify(o));}
@@ -198,15 +198,15 @@
     rentM=st.rent==='custom'?num(st.custom,0):opt.v;
     var gross=rentM*12;
     var mg=gross*a.mgmt/100, mt=gross*a.maint/100, vc=gross*a.vac/100, cx=gross*a.capex/100;
-    var tax=num(st.tax,0), ins=num(st.ins,0);
-    var noi=gross-mg-mt-vc-cx-tax-ins;
+    var tax=num(st.tax,0), ins=num(st.ins,0), hoa=num(st.hoa,0);
+    var noi=gross-mg-mt-vc-cx-tax-ins-hoa;
     var cash=offer*(1+a.close/100);
     var ret=cash>0?noi/cash:0;
     var costPct=(a.mgmt+a.maint+a.vac+a.capex)/100;
     var goal=a.goal/100;
-    var maxPrice=(gross*(1-costPct)-tax-ins)/(goal*(1+a.close/100));
-    var needRent=(goal*cash+tax+ins)/(12*(1-costPct));
-    return {offer:offer,rentM:rentM,gross:gross,mg:mg,mt:mt,vc:vc,cx:cx,tax:tax,ins:ins,noi:noi,cash:cash,ret:ret,maxPrice:maxPrice,needRent:needRent,goal:goal};
+    var maxPrice=(gross*(1-costPct)-tax-ins-hoa)/(goal*(1+a.close/100));
+    var needRent=(goal*cash+tax+ins+hoa)/(12*(1-costPct));
+    return {offer:offer,rentM:rentM,gross:gross,mg:mg,mt:mt,vc:vc,cx:cx,tax:tax,ins:ins,hoa:hoa,noi:noi,cash:cash,ret:ret,maxPrice:maxPrice,needRent:needRent,goal:goal};
   }
 
   function renderAssume(){
@@ -218,7 +218,7 @@
     var best=0; r.forEach(function(x,i){if(x.ret>r[best].ret)best=i;});
     $('cmp').style.setProperty('--n',n);
     $('hint2').hidden=n<3;
-    var h='<div class="h first"></div>'+PROPS.map(function(p){return '<div class="h c">'+p.name.replace(' Street','').replace(' Drive','')+'<br><span style="font-weight:500;text-transform:none;letter-spacing:0">'+p.city.split(',')[0]+'</span></div>';}).join('');
+    var h='<div class="h first"></div>'+PROPS.map(function(p){return '<div class="h c">'+p.name.replace(' Street','').replace(' Drive','')+'<br><span style="font-weight:500;text-transform:none;letter-spacing:0">'+p.city.split(',')[0]+(p.kind?' &middot; '+p.kind:'')+'</span></div>';}).join('');
     function row(label,vals,cls,last){
       h+='<div class="lbl'+(last?' last':'')+(cls==='big'?' bigrow':'')+'">'+label+'</div>'+vals.map(function(v,i){return '<div class="c '+(cls||'')+(last?' last':'')+(i===best&&cls==='big'&&n>1?' win':'')+'">'+v+'</div>';}).join('');
     }
@@ -238,7 +238,7 @@
       var opts=p.rents.map(function(r){return '<option value="'+r.k+'"'+(st.rent===r.k?' selected':'')+'>'+r.label+(r.k==='custom'?'':' : '+fmt(r.v)+' al mes')+'</option>';}).join('');
       out+='<article class="prop" data-p="'+p.id+'">'
         +'<h3>'+p.name+'</h3><div class="addr">'+p.city+' &middot; Precio de lista '+fmt(p.price)+(p.orig>p.price?' (antes '+fmt(p.orig)+')':'')+'</div>'
-        +'<div class="tags">'+p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>'
+        +'<div class="tags">'+(p.kind?'<span class="tag" style="color:var(--ink);font-weight:600">'+p.kind+'</span>':'')+p.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>'
         +'<a class="btn" href="'+p.link+'" target="_blank" rel="noopener">Ver la propiedad en Doorify</a>'
         +'<p class="src" style="margin-top:8px">'+p.link+'</p>'
         +'<div class="grid g2" style="margin-top:14px">'
@@ -248,10 +248,11 @@
         +(st.rent==='custom'?'<label class="f"><span>Renta mensual total</span><div class="inp"><i>$</i><input data-k="custom" type="number" inputmode="decimal" step="50" min="0" value="'+st.custom+'"></div></label>':'')
         +'<label class="f"><span>Impuestos al año</span><div class="inp"><i>$</i><input data-k="tax" type="number" inputmode="decimal" step="50" min="0" value="'+st.tax+'"></div></label>'
         +'<label class="f"><span>Seguro al año (estimado)</span><div class="inp"><i>$</i><input data-k="ins" type="number" inputmode="decimal" step="50" min="0" value="'+st.ins+'"></div></label>'
+        +'<label class="f"><span>HOA al año</span><div class="inp"><i>$</i><input data-k="hoa" type="number" inputmode="decimal" step="50" min="0" value="'+(st.hoa||0)+'"></div></label>'
         +'</div>'
         +'<p class="src"><b>Renta:</b> '+p.rentSrc+'</p>'
         +'<p class="src">'+p.rentNote+'</p>'
-        +'<p class="src"><b>Impuestos:</b> '+p.taxNote+' Son datos históricos y pueden cambiar.</p>'
+        +'<p class="src"><b>Impuestos:</b> '+p.taxNote+(p.taxEst?'':' Son datos históricos y pueden cambiar.')+'</p>'
         +'<p class="src"><b>Seguro:</b> estimado. Pide cotizaciones reales a un agente de seguros.</p>'
         +'<table class="bd">'
         +'<tr><td>Renta bruta al año</td><td>'+fmt(c.gross)+'</td></tr>'
@@ -261,6 +262,7 @@
         +'<tr class="sub"><td>Reserva grandes reparaciones ('+state.assume.capex+'%)</td><td>'+fmt(-c.cx)+'</td></tr>'
         +'<tr class="sub"><td>Impuestos</td><td>'+fmt(-c.tax)+'</td></tr>'
         +'<tr class="sub"><td>Seguro</td><td>'+fmt(-c.ins)+'</td></tr>'
+        +'<tr class="sub"><td>HOA</td><td>'+fmt(-c.hoa)+'</td></tr>'
         +'<tr class="t"><td>Ingreso neto al año</td><td>'+fmt(c.noi)+'</td></tr>'
         +'</table>'
         +'<div class="meter">'
@@ -316,7 +318,7 @@
       var strongs=card.querySelectorAll('.meter strong');
       strongs[0].textContent=pct(c.ret);strongs[1].textContent=fmt(c.needRent);strongs[2].textContent=c.maxPrice>0?fmt(c.maxPrice):'No aplica';
       var tds=card.querySelectorAll('table.bd td:last-child');
-      var vals=[c.gross,-c.mg,-c.mt,-c.vc,-c.cx,-c.tax,-c.ins,c.noi];
+      var vals=[c.gross,-c.mg,-c.mt,-c.vc,-c.cx,-c.tax,-c.ins,-c.hoa,c.noi];
       vals.forEach(function(v,i){tds[i].textContent=fmt(v);});
       var dis=card.querySelector('input[disabled]'); if(dis)dis.value=Math.round(c.offer).toLocaleString('en-US');
     });

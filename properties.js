@@ -5,7 +5,7 @@ window.PROPS = [
   {
     id:'granby', name:'1214 Granby Street', city:'Durham, NC 27701',
     link:'https://www.flexmls.com/share/Epl5F/1214-Granby-Street-Durham-NC-27701',
-    price:400000, orig:415000,
+    kind:'Dúplex', price:400000, orig:415000,
     tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado'],
     tax:4554, taxNote:'Impuestos del año fiscal 2025 (valor tasado $459,420).',
     ins:3100,
@@ -23,7 +23,7 @@ window.PROPS = [
   {
     id:'sellers', name:'215 N Sellers Street', city:'Selma, NC 27576',
     link:'https://www.flexmls.com/share/Epl6R/215-N-Sellers-Street-Selma-NC-27576',
-    price:439500, orig:449000,
+    kind:'Dúplex', price:439500, orig:449000,
     tags:['Construida en 2022','Dúplex lado a lado','2 unidades de 3 recámaras y 2.5 baños','Aprox. 1,255 pies² por unidad','Sin HOA','155 días en el mercado'],
     tax:3940, taxNote:'Impuestos del año fiscal 2025 (valor tasado $351,820).',
     ins:2800,
@@ -36,5 +36,56 @@ window.PROPS = [
     ],
     rentNote:'El anuncio indica que ambas unidades están rentadas hasta el 1 de enero de 2027, pero no publica la renta actual. Pídela al agente de la propiedad.',
     cardNote:'El vendedor tiene más edificios iguales en la misma calle. Comprar más de uno puede abrir la puerta a un mejor precio. Las fotos del anuncio tienen decoración virtual.'
+  },
+  {
+    id:'glendale', name:'220 Glendale Circle', city:'Sanford, NC 27332',
+    link:'https://www.flexmls.com/share/EpmBo/220-Glendale-Circle-Sanford-NC-27332',
+    kind:'Casa unifamiliar', price:260000, orig:325500,
+    tags:['Construida en 2020','3 recámaras y 2 baños','Aprox. 1,580 pies²','Garaje de 2 carros','Sin HOA','Una planta, lote de media acre','172 días en el mercado','Rebaja de $65,500'],
+    tax:1690, taxEst:true, taxNote:'ESTIMADO. El MLS no publica el impuesto de esta propiedad. Se calculó con la tasa del condado de Lee (65 centavos por cada $100) sobre el precio de lista. Pide el dato real al agente o al condado.',
+    ins:2100, hoa:0,
+    rentSrc:'Rentometer QuickView, mediana de 19 propiedades similares de 3 recámaras y entre 1,264 y 1,975 pies² en un radio de 3 millas. Promedio reportado: $1,877. Rango de la mitad central: $1,799 a $1,955.',
+    rents:[
+      {k:'median',label:'Mediana de mercado (Rentometer)',v:1875},
+      {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:1799},
+      {k:'p75',label:'Mercado alto, percentil 75 (Rentometer)',v:1955},
+      {k:'custom',label:'Otra renta (la escribo yo)',v:1875}
+    ],
+    rentNote:'Es una sola unidad. El anuncio no dice si hay inquilino.',
+    cardNote:'Según el anuncio tiene fosa séptica y gas propano, y es una casa lista para mudarse. Confirma el estado en persona.'
+  },
+  {
+    id:'palace', name:'233 Palace Green Lane', city:'Sanford, NC 27330',
+    link:'https://www.flexmls.com/share/EpmBH/233-Palace-Green-Lane-Sanford-NC-27330',
+    kind:'Casa unifamiliar', price:259900, orig:269999,
+    tags:['Construida en 2008','3 recámaras y 3 baños','Aprox. 1,763 pies²','HOA de $75 al trimestre','70 días en el mercado','Rebaja reciente'],
+    tax:3250, taxEst:true, taxNote:'ESTIMADO. El MLS no publica el impuesto de esta propiedad. Se calculó con la tasa del condado de Lee (65 centavos por cada $100) más una tasa de la ciudad de Sanford de unos 60 centavos, que es un dato antiguo y no confirmado. Pide el dato real.',
+    ins:2100, hoa:300,
+    rentSrc:'Rentometer QuickView, mediana de 13 propiedades similares de 3 recámaras y entre 1,410 y 2,203 pies² en un radio de 3 millas. Promedio reportado: $1,860. Rango de la mitad central: $1,771 a $1,948.',
+    rents:[
+      {k:'median',label:'Mediana de mercado (Rentometer)',v:1875},
+      {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:1771},
+      {k:'p75',label:'Mercado alto, percentil 75 (Rentometer)',v:1948},
+      {k:'custom',label:'Otra renta (la escribo yo)',v:1875}
+    ],
+    rentNote:'Es una sola unidad. El anuncio no dice si hay inquilino.',
+    cardNote:'El anuncio dice que el garaje se convirtió en un cuarto adicional. Confirma que los permisos estén en regla y que la HOA permita rentas a largo plazo.'
+  },
+  {
+    id:'sunfish', name:'282 Sunfish Street', city:'Smithfield, NC 27577',
+    link:'https://www.flexmls.com/share/EpmCK/282-Sunfish-Street-Smithfield-NC-27577',
+    kind:'Casa unifamiliar', price:249900, orig:249900,
+    tags:['Construida en 2021','3 recámaras y 2 baños','Aprox. 1,216 pies²','Garaje de 1 carro','HOA de $110 al mes','Una planta','135 días en el mercado'],
+    tax:2707, taxNote:'Impuestos del año fiscal 2025 (valor tasado $279,900).',
+    ins:2100, hoa:1320,
+    rentSrc:'Rentometer QuickView, mediana de 12 propiedades similares de 3 recámaras y entre 972 y 1,520 pies² en un radio de 3 millas. Promedio reportado: $1,802. Rango de la mitad central: $1,744 a $1,861.',
+    rents:[
+      {k:'median',label:'Mediana de mercado (Rentometer)',v:1800},
+      {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:1744},
+      {k:'p75',label:'Mercado alto, percentil 75 (Rentometer)',v:1861},
+      {k:'custom',label:'Otra renta (la escribo yo)',v:1800}
+    ],
+    rentNote:'Es una sola unidad. El anuncio indica que no está rentada.',
+    cardNote:'Confirma con la HOA de East River que se permiten rentas a largo plazo y el costo exacto de la cuota.'
   }
 ];
