@@ -401,9 +401,9 @@
     <div class="panel rv">
       <div class="scrow">
         <div class="seg3" id="scn" role="group" aria-label="Escenario de renta">
-          <button type="button" data-sc="p25">Renta baja<small>Mercado bajo</small></button>
-          <button type="button" data-sc="median" class="on">Renta típica<small>Mediana de mercado</small></button>
-          <button type="button" data-sc="p75">Renta alta<small>Mercado alto</small></button>
+          <button type="button" data-sc="p25">Renta baja<small>Conservador</small></button>
+          <button type="button" data-sc="median" class="on">Renta típica<small>Estimado típico</small></button>
+          <button type="button" data-sc="p75">Renta alta<small>Optimista</small></button>
         </div>
         <p>¿Y si la renta sale más baja o más alta de lo esperado? Cambia el escenario y mira cómo se mueve todo.</p>
       </div>
@@ -411,7 +411,7 @@
       <div class="legendrow">
         <span><i style="background:var(--gold)"></i>Cumple tu meta</span>
         <span><i style="background:var(--slate)"></i>Debajo de tu meta</span>
-        <span><i class="bnd"></i>Rango de renta de mercado (baja a alta)</span>
+        <span><i class="bnd"></i>Rango de renta (baja a alta)</span>
         <span><i class="dash"></i>Tu meta</span>
       </div>
     </div>
@@ -642,7 +642,7 @@
       var f=b.querySelector('.fill');f.className='fill'+(ok?' ok':'');f.style.width=Math.max(0,Math.min(100,x.ret/scale*100))+'%';
       var bd=b.querySelector('.band');bd.style.left=Math.max(0,lo[i]/scale*100)+'%';bd.style.width=Math.max(0.5,(hi[i]-Math.max(lo[i],0))/scale*100)+'%';
       b.querySelector('.goalline').style.left=Math.min(100,goal/scale*100)+'%';
-      b.querySelector('.tag2').textContent=(ok?'Cumple tu meta de '+state.assume.goal+'%':'Debajo de tu meta de '+state.assume.goal+'%')+' · Con rentas de mercado de bajas a altas: '+pct(lo[i])+' a '+pct(hi[i]);
+      b.querySelector('.tag2').textContent=(ok?'Cumple tu meta de '+state.assume.goal+'%':'Debajo de tu meta de '+state.assume.goal+'%')+' · Con rentas de bajas a altas: '+pct(lo[i])+' a '+pct(hi[i]);
     });
     $('cmp').style.setProperty('--n',n);
     $('hint2').hidden=n<3;
