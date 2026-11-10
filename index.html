@@ -652,7 +652,8 @@
     row('Tu precio de oferta',r.map(function(x){return fmt(x.offer);}));
     row('Renta al mes',r.map(function(x){return fmt(x.rentM);}));
     row('Ganancia al mes',r.map(function(x){return fmt(x.noi/12);}));
-    row('Efectivo que pones',r.map(function(x){return fmt(x.cash);}),true);
+    row('Efectivo que pones',r.map(function(x){return fmt(x.cash);}));
+    row('Fotos y detalles',PROPS.map(function(p){return '<a href="'+p.link+'" target="_blank" rel="noopener" style="font-weight:600;color:var(--gold-ink)">Ver fotos</a>';}),true);
     $('cmp').innerHTML=h;
     // scenario button state
     var act=null;['p25','median','p75'].forEach(function(k){if(PROPS.every(function(p){return rentOf(p,k)==null||state.props[p.id].rent===k;}))act=act||k;});
@@ -690,7 +691,7 @@
     selPin=id;
     [].forEach.call(document.querySelectorAll('.pin'),function(g){g.classList.toggle('sel',g.getAttribute('data-pin')===id);});
     var p=PROPS.filter(function(x){return x.id===id;})[0],c=calc(p),d=miles(HUB.lat,HUB.lon,p.lat,p.lon);
-    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</small></div><button class="btn gold" type="button" data-go="'+id+'">Ver esta propiedad</button>';
+    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</small></div><span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="'+p.link+'" target="_blank" rel="noopener">Ver las fotos</a><button class="btn" type="button" data-go="'+id+'" style="background:rgba(255,255,255,.14)">Ver los números</button></span>';
   }
   function goTo(id){
     var el=document.querySelector('.prop[data-p="'+id+'"]');if(!el)return;
