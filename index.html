@@ -399,7 +399,6 @@
     </div>
     <div class="stats">
       <div><strong id="st1">0</strong><span>propiedades analizadas</span></div>
-      <div><strong id="st2">$0</strong><span>tu presupuesto de contado</span></div>
       <div><strong>≈ 1 hora</strong><span>nuestro criterio: dentro de una hora de Raleigh o Durham</span></div>
     </div>
   </div>
@@ -661,7 +660,6 @@
     var best=0; PROPS.forEach(function(p){var r=calc(p).ret;if(r>best)best=r;});
     var towns={}; PROPS.forEach(function(p){towns[p.city.split(',')[0]]=1;});
     tween($('st1'),PROPS.length,function(v){return Math.round(v);});
-    tween($('st2'),state.budget,function(v){return '$'+Math.round(v).toLocaleString('en-US');});
   }
 
   /* summary bars */
