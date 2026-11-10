@@ -6,7 +6,7 @@ window.PROPS = [
     id:'granby', lat:35.9999548, lon:-78.8840628, name:'1214 Granby Street', city:'Durham, NC 27701',
     link:'https://www.flexmls.com/share/Epl5F/1214-Granby-Street-Durham-NC-27701',
     kind:'Dúplex', price:400000, orig:415000,
-    tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado'],
+    tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado desde que se volvió a listar (97 en total)'],
     tax:4554, taxNote:'Impuestos del año fiscal 2025 (valor tasado $459,420).',
     ins:3100,
     rentSrc:'Rentometer QuickView, solo apartamentos o unidades adjuntas (no casas unifamiliares), porque un dúplex rinde menos renta que una casa del mismo tamaño. Cada lado se compara por separado: 3 recámaras, 1.5 baños o más y entre 950 y 1,300 pies² (cada lado mide unos 1,100 pies²). Son 17 comparables en un radio de 3 millas. La mediana es $1,668 por lado y la multiplicamos por 2 lados. Rango de la mitad central por lado: $1,529 a $2,612. El rango alto es amplio porque incluye algunos edificios nuevos de lujo. IMPORTANTE: aunque Rentometer muestra una mediana de $1,668 por lado, para no crear falsas expectativas limitamos nuestro escenario típico a $1,400 por lado ($2,800 en total) y el máximo a $1,500 por lado ($3,000 en total). El escenario conservador ($1,250 por lado) es lo que hoy paga el inquilino que más paga. Estos topes son nuestro criterio, no una cifra de Rentometer.',
