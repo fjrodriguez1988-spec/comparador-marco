@@ -3,7 +3,7 @@
 // Las rentas (v) son el total mensual de todas las unidades.
 window.PROPS = [
   {
-    id:'granby', name:'1214 Granby Street', city:'Durham, NC 27701',
+    id:'granby', lat:35.994, lon:-78.899, name:'1214 Granby Street', city:'Durham, NC 27701',
     link:'https://www.flexmls.com/share/Epl5F/1214-Granby-Street-Durham-NC-27701',
     kind:'Dúplex', price:400000, orig:415000,
     tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado'],
@@ -21,7 +21,7 @@ window.PROPS = [
     cardNote:'Confirma con un abogado la situación de los inquilinos y el plan para el fin de los contratos.'
   },
   {
-    id:'sellers', name:'215 N Sellers Street', city:'Selma, NC 27576',
+    id:'sellers', lat:35.5365, lon:-78.2845, name:'215 N Sellers Street', city:'Selma, NC 27576',
     link:'https://www.flexmls.com/share/Epl6R/215-N-Sellers-Street-Selma-NC-27576',
     kind:'Dúplex', price:439500, orig:449000,
     tags:['Construida en 2022','Dúplex lado a lado','2 unidades de 3 recámaras y 2.5 baños','Aprox. 1,255 pies² por unidad','Sin HOA','155 días en el mercado'],
@@ -38,7 +38,7 @@ window.PROPS = [
     cardNote:'El vendedor tiene más edificios iguales en la misma calle. Comprar más de uno puede abrir la puerta a un mejor precio. Las fotos del anuncio tienen decoración virtual.'
   },
   {
-    id:'glendale', name:'220 Glendale Circle', city:'Sanford, NC 27332',
+    id:'glendale', lat:35.4799, lon:-79.1803, name:'220 Glendale Circle', city:'Sanford, NC 27332',
     link:'https://www.flexmls.com/share/EpmBo/220-Glendale-Circle-Sanford-NC-27332',
     kind:'Casa unifamiliar', price:260000, orig:325500,
     tags:['Construida en 2020','3 recámaras y 2 baños','Aprox. 1,580 pies²','Garaje de 2 carros','Sin HOA','Una planta, lote de media acre','172 días en el mercado','Rebaja de $65,500'],
@@ -55,7 +55,7 @@ window.PROPS = [
     cardNote:'Las fotos del anuncio muestran una casa limpia y bien cuidada, con cocina de gabinetes oscuros y granito, y recámaras alfombradas. Según el anuncio tiene fosa séptica y gas propano. Confirma el estado en persona.'
   },
   {
-    id:'sunfish', name:'282 Sunfish Street', city:'Smithfield, NC 27577',
+    id:'sunfish', lat:35.5085, lon:-78.3394, name:'282 Sunfish Street', city:'Smithfield, NC 27577',
     link:'https://www.flexmls.com/share/EpmCK/282-Sunfish-Street-Smithfield-NC-27577',
     kind:'Casa unifamiliar', price:249900, orig:249900,
     tags:['Construida en 2021','3 recámaras y 2 baños','Aprox. 1,216 pies²','Garaje de 1 carro','HOA de $110 al mes','Una planta','135 días en el mercado'],
