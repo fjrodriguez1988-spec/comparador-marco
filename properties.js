@@ -52,24 +52,7 @@ window.PROPS = [
       {k:'custom',label:'Otra renta (la escribo yo)',v:1875}
     ],
     rentNote:'Es una sola unidad. El anuncio no dice si hay inquilino.',
-    cardNote:'Según el anuncio tiene fosa séptica y gas propano, y es una casa lista para mudarse. Confirma el estado en persona.'
-  },
-  {
-    id:'palace', name:'233 Palace Green Lane', city:'Sanford, NC 27330',
-    link:'https://www.flexmls.com/share/EpmBH/233-Palace-Green-Lane-Sanford-NC-27330',
-    kind:'Casa unifamiliar', price:259900, orig:269999,
-    tags:['Construida en 2008','3 recámaras y 3 baños','Aprox. 1,763 pies²','HOA de $75 al trimestre','70 días en el mercado','Rebaja reciente'],
-    tax:3250, taxEst:true, taxNote:'ESTIMADO. El MLS no publica el impuesto de esta propiedad. Se calculó con la tasa del condado de Lee (65 centavos por cada $100) más una tasa de la ciudad de Sanford de unos 60 centavos, que es un dato antiguo y no confirmado. Pide el dato real.',
-    ins:2100, hoa:300,
-    rentSrc:'Rentometer QuickView, mediana de 13 propiedades similares de 3 recámaras y entre 1,410 y 2,203 pies² en un radio de 3 millas. Promedio reportado: $1,860. Rango de la mitad central: $1,771 a $1,948.',
-    rents:[
-      {k:'median',label:'Mediana de mercado (Rentometer)',v:1875},
-      {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:1771},
-      {k:'p75',label:'Mercado alto, percentil 75 (Rentometer)',v:1948},
-      {k:'custom',label:'Otra renta (la escribo yo)',v:1875}
-    ],
-    rentNote:'Es una sola unidad. El anuncio no dice si hay inquilino.',
-    cardNote:'El anuncio dice que el garaje se convirtió en un cuarto adicional. Confirma que los permisos estén en regla y que la HOA permita rentas a largo plazo.'
+    cardNote:'Las fotos del anuncio muestran una casa limpia y bien cuidada, con cocina de gabinetes oscuros y granito, y recámaras alfombradas. Según el anuncio tiene fosa séptica y gas propano. Confirma el estado en persona.'
   },
   {
     id:'sunfish', name:'282 Sunfish Street', city:'Smithfield, NC 27577',
@@ -86,6 +69,6 @@ window.PROPS = [
       {k:'custom',label:'Otra renta (la escribo yo)',v:1800}
     ],
     rentNote:'Es una sola unidad. El anuncio indica que no está rentada.',
-    cardNote:'Confirma con la HOA de East River que se permiten rentas a largo plazo y el costo exacto de la cuota.'
+    cardNote:'Las fotos del anuncio muestran una casa limpia, con piso vinílico, cocina con granito y electrodomésticos de acero inoxidable. Confirma con la HOA de East River que se permiten rentas a largo plazo y el costo exacto de la cuota. Confirma el estado en persona.'
   }
 ];
