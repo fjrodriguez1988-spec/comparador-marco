@@ -170,6 +170,30 @@
   .fam .dot{fill:#2A7BA8;stroke:#fff;stroke-width:2}
   .fam text{fill:#BFE0F2;font-size:11px;font-weight:600;font-family:Montserrat,Arial,sans-serif;paint-order:stroke;stroke:rgba(7,32,47,.85);stroke-width:4px}
   @keyframes pulse{0%{transform:scale(.6);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+  #map{height:480px;width:100%;background:#E5E3DF;position:relative}
+  #map iframe{width:100%;height:100%;border:0;display:block}
+  @media (max-width:560px){#map{height:420px}}
+  .mapbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.1)}
+  .mchips,.mmodes{display:flex;gap:6px;flex-wrap:wrap}
+  .mchips button,.mmodes button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#fff;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+  .mchips button b{color:var(--gold-2);font-family:'Poppins',Arial,sans-serif;margin-left:4px}
+  .mchips button.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+  .mchips button.on b{color:var(--navy)}
+  .mmodes button.on{background:#fff;color:var(--navy);border-color:#fff}
+  .mchips button:focus-visible,.mmodes button:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+  .leaflet-container{font-family:'Montserrat',Arial,sans-serif}
+  .lp{position:relative;transform:translate(-50%,calc(-100% - 8px));width:max-content}
+  .lp .bub{background:var(--navy);color:#fff;border:2px solid var(--gold);border-radius:12px;padding:4px 9px 3px;text-align:center;white-space:nowrap;box-shadow:0 4px 12px rgba(12,44,66,.35);line-height:1.15}
+  .lp .bub b{display:block;font-family:'Poppins',Arial,sans-serif;font-size:14px;color:var(--gold-2)}
+  .lp .bub span{font-size:11px;font-weight:600}
+  .lp::after{content:'';position:absolute;left:50%;bottom:-8px;margin-left:-7px;border:7px solid transparent;border-top-color:var(--gold);border-bottom:0}
+  .lp.sel .bub{background:var(--gold);color:var(--navy)}
+  .lp.sel .bub b{color:var(--navy)}
+  .lp.hubm .bub{background:#fff;color:var(--navy);border-color:var(--navy)}
+  .lp.hubm::after{border-top-color:var(--navy)}
+  .lp.fam .bub{background:#2A7BA8;border-color:#fff}
+  .lp.fam::after{border-top-color:#fff}
+  .mapnote{padding:12px 20px;font-size:12.5px;color:#D5DEE5;background:rgba(255,255,255,.04)}
   .mapinfo{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:16px 20px;background:rgba(255,255,255,.06);border-top:1px solid rgba(255,255,255,.1)}
   .mapinfo b{font-family:'Poppins',Arial,sans-serif;font-size:16px}
   .mapinfo small{color:#C7D3DC;display:block;font-size:12px}
@@ -360,7 +384,7 @@
       <div><strong id="st1">0</strong><span>propiedades analizadas</span></div>
       <div><strong id="st2">$0</strong><span>tu presupuesto de contado</span></div>
       <div><strong id="st3">0%</strong><span>retorno neto estimado más alto</span></div>
-      <div><strong id="st4">0</strong><span>pueblos de la zona de Raleigh</span></div>
+      <div><strong>≈ 1 hora</strong><span>nuestro criterio: dentro de una hora de Raleigh o Durham</span></div>
     </div>
   </div>
 </header>
@@ -439,10 +463,12 @@
   <section id="mapa">
     <div class="rule"></div>
     <h2>Dónde están</h2>
-    <p class="lead">Cada punto es una propiedad, vista desde Raleigh. Toca un punto para ver el detalle.</p>
+    <p class="lead">Nuestro criterio de búsqueda fue propiedades dentro de aproximadamente una hora de Raleigh y Durham. Ninguna está en Raleigh: son pueblos cercanos, y unas están más lejos que otras. Elige una propiedad para ver dónde está en la región, acercar el mapa, ver el satélite o caminar la calle en Street View.</p>
     <div class="panel dark rv" style="padding:0">
-      <div class="mapbox"><svg class="map" id="map" viewBox="0 0 640 400" role="img" aria-label="Mapa de las propiedades alrededor de Raleigh"></svg></div>
-      <div class="mapinfo" id="mapinfo"><div><b>Toca un punto del mapa</b><small>Los anillos muestran la distancia en línea recta desde Raleigh. Las ubicaciones son aproximadas, por pueblo.</small></div></div>
+      <div class="mapbar"><div class="mchips" id="mchips" role="group" aria-label="Elige una propiedad"></div><div class="mmodes" id="mmodes" role="group" aria-label="Tipo de vista"></div></div>
+      <div class="mapbox"><div id="map" role="region" aria-label="Mapa de Google"></div></div>
+      <div class="mapnote">Es Google Maps: puedes mover el mapa y hacer zoom como siempre. En "Ubicación en la región" ves dónde está la propiedad con Raleigh y los pueblos de alrededor. En "Street View" arrastra para mirar alrededor y toca las flechas para caminar la calle. Las millas son en línea recta desde Raleigh. Si en alguna propiedad no aparece la calle, usa "Abrir en Google Maps".</div>
+      <div class="mapinfo" id="mapinfo"><div><b>Cargando…</b><small></small></div></div>
     </div>
   </section>
 
@@ -613,7 +639,6 @@
     tween($('st1'),PROPS.length,function(v){return Math.round(v);});
     tween($('st2'),state.budget,function(v){return '$'+Math.round(v).toLocaleString('en-US');});
     tween($('st3'),best*100,function(v){return v.toFixed(1)+'%';});
-    tween($('st4'),Object.keys(towns).length,function(v){return Math.round(v);});
   }
 
   /* summary bars */
@@ -661,37 +686,43 @@
     renderChips();
   }
 
-  /* map */
-  var HUB={name:'Raleigh',lat:35.7796,lon:-78.6382}, FAM={name:'Lillington (tu sobrina)',lat:35.3985,lon:-78.8112};
-  function xy(lat,lon){return [(lon+79.9)*252.9,(36.3-lat)*310.5+10];}
+  /* map (Google Maps embeds, sin llave) */
+  var HUB={name:'Raleigh',lat:35.7796,lon:-78.6382};
   function miles(a,b,c,d){var r=3958.8,q=Math.PI/180,x=(c-a)*q,y=(d-b)*q,h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*q)*Math.cos(c*q)*Math.sin(y/2)*Math.sin(y/2);return 2*r*Math.asin(Math.sqrt(h));}
-  var OFF={granby:[-12,-12,'end'],sellers:[14,-6,'start'],sunfish:[-14,22,'end'],glendale:[-14,-12,'end']};
+  var selPin=null, mapMode='region';
+  var MODES=[['region','Ubicación en la región'],['map','Mapa de cerca'],['sat','Satélite'],['street','Street View']];
+  function addrOf(p){return encodeURIComponent(p.name+', '+p.city);}
+  function frameSrc(p,mode){
+    var a=addrOf(p);
+    if(mode==='region')return 'https://maps.google.com/maps?q='+a+'&z=9&output=embed';
+    if(mode==='street')return 'https://maps.google.com/maps?q=&layer=c&cbll='+p.lat+','+p.lon+'&cbp=12,0,0,0,0&output=svembed';
+    return 'https://maps.google.com/maps?q='+a+'&z=17'+(mode==='sat'?'&t=k':'')+'&output=embed';
+  }
   function buildMap(){
-    var h='',hub=xy(HUB.lat,HUB.lon),i;
-    for(i=0;i<=640;i+=64)h+='<line class="gl" x1="'+i+'" y1="0" x2="'+i+'" y2="400"/>';
-    for(i=0;i<=400;i+=50)h+='<line class="gl" x1="0" y1="'+i+'" x2="640" y2="'+i+'"/>';
-    h='<defs><radialGradient id="mg" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#14405F"/><stop offset="1" stop-color="#07202F"/></radialGradient></defs><rect width="640" height="400" fill="url(#mg)"/>'+h;
-    [30,60].forEach(function(mi){var rr=mi*4.5;h+='<circle class="ring" cx="'+hub[0]+'" cy="'+hub[1]+'" r="'+rr+'"/><text class="ringlbl" text-anchor="end" x="'+(hub[0]+rr-6)+'" y="'+(hub[1]-6)+'">'+mi+' millas</text>';});
-    var fm=xy(FAM.lat,FAM.lon);
-    h+='<g class="fam"><circle class="dot" cx="'+fm[0]+'" cy="'+fm[1]+'" r="6"/><text x="'+(fm[0]+10)+'" y="'+(fm[1]+16)+'">Lillington (tu sobrina)</text></g>';
-    h+='<g class="hub"><circle class="dot" cx="'+hub[0]+'" cy="'+hub[1]+'" r="8"/><text x="'+(hub[0]+13)+'" y="'+(hub[1]-8)+'">Raleigh</text></g>';
-    PROPS.forEach(function(p){
-      if(p.lat==null)return;
-      var q=xy(p.lat,p.lon),o=OFF[p.id]||[14,-8,'start'];
-      h+='<g class="pin" data-pin="'+p.id+'" tabindex="0" role="button" aria-label="'+p.name+'"><circle class="pulse" cx="'+q[0]+'" cy="'+q[1]+'" r="9"/><circle class="dot" cx="'+q[0]+'" cy="'+q[1]+'" r="8"/><text x="'+(q[0]+o[0])+'" y="'+(q[1]+o[1])+'" text-anchor="'+o[2]+'">'+p.city.split(',')[0]+'</text><text class="pct" data-pp="'+p.id+'" x="'+(q[0]+o[0])+'" y="'+(q[1]+o[1]+14)+'" text-anchor="'+o[2]+'"></text></g>';
-    });
-    $('map').innerHTML=h;
+    var withGeo=PROPS.filter(function(p){return p.lat!=null;}); if(!withGeo.length)return;
+    $('mmodes').innerHTML=MODES.map(function(m){return '<button type="button" data-mode="'+m[0]+'">'+m[1]+'</button>';}).join('');
+    $('mchips').addEventListener('click',function(e){var b=e.target.closest('[data-pin]');if(b)showPin(b.getAttribute('data-pin'));});
+    $('mmodes').addEventListener('click',function(e){var b=e.target.closest('[data-mode]');if(b){mapMode=b.getAttribute('data-mode');showPin(selPin);}});
+    selPin=withGeo[0].id; drawChips(); showPin(selPin,true);
   }
-  var selPin=null;
-  function updateMap(){
-    PROPS.forEach(function(p){var t=document.querySelector('[data-pp="'+p.id+'"]');if(t)t.textContent=pct(calc(p).ret);});
-    if(selPin)showPin(selPin);
+  function drawChips(){
+    $('mchips').innerHTML=PROPS.filter(function(p){return p.lat!=null;}).map(function(p){return '<button type="button" data-pin="'+p.id+'"'+(p.id===selPin?' class="on"':'')+'>'+p.city.split(',')[0]+'<b>'+pct(calc(p).ret)+'</b></button>';}).join('');
   }
-  function showPin(id){
+  function updateMap(){if(selPin){drawChips();infoFor(selPin);}}
+  function infoFor(id){
+    var p=PROPS.filter(function(x){return x.id===id;})[0]; if(!p)return;
+    var c=calc(p),d=miles(HUB.lat,HUB.lon,p.lat,p.lon),a=addrOf(p);
+    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</small></div>'
+      +'<span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="https://www.google.com/maps/search/?api=1&query='+a+'" target="_blank" rel="noopener">Abrir en Google Maps</a><a class="btn" href="'+p.link+'" target="_blank" rel="noopener" style="background:rgba(255,255,255,.14)">Ver las fotos</a><button class="btn" type="button" data-go="'+id+'" style="background:rgba(255,255,255,.14)">Ver los números</button></span>';
+  }
+  function showPin(id,first){
     selPin=id;
-    [].forEach.call(document.querySelectorAll('.pin'),function(g){g.classList.toggle('sel',g.getAttribute('data-pin')===id);});
-    var p=PROPS.filter(function(x){return x.id===id;})[0],c=calc(p),d=miles(HUB.lat,HUB.lon,p.lat,p.lon);
-    $('mapinfo').innerHTML='<div><b>'+p.name+' · '+p.city.split(',')[0]+'</b><small>Aprox. '+Math.round(d)+' millas de Raleigh en línea recta · piden '+fmt(p.price)+' · retorno neto estimado '+pct(c.ret)+'</small></div><span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn gold" href="'+p.link+'" target="_blank" rel="noopener">Ver las fotos</a><button class="btn" type="button" data-go="'+id+'" style="background:rgba(255,255,255,.14)">Ver los números</button></span>';
+    var p=PROPS.filter(function(x){return x.id===id;})[0]; if(!p)return;
+    [].forEach.call($('mmodes').children,function(b){b.classList.toggle('on',b.getAttribute('data-mode')===mapMode);});
+    drawChips();infoFor(id);
+    var src=frameSrc(p,mapMode), fr=$('map').querySelector('iframe');
+    if(!fr){fr=document.createElement('iframe');fr.setAttribute('allowfullscreen','');fr.setAttribute('referrerpolicy','no-referrer-when-downgrade');fr.setAttribute('title','Google Maps');$('map').appendChild(fr);}
+    if(fr.getAttribute('src')!==src)fr.setAttribute('src',src);
   }
   function goTo(id){
     var el=document.querySelector('.prop[data-p="'+id+'"]');if(!el)return;
@@ -933,8 +964,6 @@
 
   /* summary clicks, map clicks, nav, print, fab */
   $('bars').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)goTo(b.getAttribute('data-go'));});
-  $('map').addEventListener('click',function(e){var g=e.target.closest('[data-pin]');if(g)showPin(g.getAttribute('data-pin'));});
-  $('map').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var g=e.target.closest('[data-pin]');if(g){e.preventDefault();showPin(g.getAttribute('data-pin'));}}});
   $('mapinfo').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)goTo(b.getAttribute('data-go'));});
   $('fab').addEventListener('click',function(){$('portafolio').scrollIntoView({behavior:RM?'auto':'smooth'});});
   $('print').addEventListener('click',function(){window.print();});
