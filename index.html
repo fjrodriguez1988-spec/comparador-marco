@@ -694,9 +694,9 @@
   function addrOf(p){return encodeURIComponent(p.name+', '+p.city);}
   function frameSrc(p,mode){
     var a=addrOf(p);
-    if(mode==='region')return 'https://maps.google.com/maps?q='+a+'&z=9&output=embed';
+    if(mode==='region')return 'https://maps.google.com/maps?q='+p.lat+','+p.lon+'&z=9&output=embed';
     if(mode==='street')return 'https://maps.google.com/maps?q=&layer=c&cbll='+p.lat+','+p.lon+'&cbp=12,0,0,0,0&output=svembed';
-    return 'https://maps.google.com/maps?q='+a+'&z=17'+(mode==='sat'?'&t=k':'')+'&output=embed';
+    return 'https://maps.google.com/maps?q='+p.lat+','+p.lon+'&z=17'+(mode==='sat'?'&t=k':'')+'&output=embed';
   }
   function buildMap(){
     var withGeo=PROPS.filter(function(p){return p.lat!=null;}); if(!withGeo.length)return;
