@@ -380,7 +380,10 @@
   .modal .acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}}
   @media print{
-    .nav,.fab,.orb,.grid-bg,.modal,.step2,button.btn,.seg3,.langsw,.shared,.mapbox iframe,[data-act],.ctl .row{display:none!important}
+    .nav,.fab,.orb,.grid-bg,.modal,.step2,button.btn,.seg3,.langsw,.shared,[data-act],.ctl .row,#mapa,.gls,.steps,.offerbox .btn,.addrow{display:none!important}
+    .prop{break-inside:auto}
+    h2,h3,.rule{break-after:avoid}
+    .panel,.est,.ctl,.offerbox{break-inside:avoid}
     body{background:#fff}
     .rv{opacity:1!important;transform:none!important}
     .prop,.panel,.dark{box-shadow:none!important;break-inside:avoid}
@@ -1119,14 +1122,11 @@
     L.push(tx('Hola Francisco y Maria,'));L.push('');L.push(tx('Estos son los números que armé en el comparador:'));L.push('');
     PROPS.forEach(function(p){
       var c=calc(p),q=state.qty[p.id]||0;if(q){cash+=c.cash*q;net+=c.noi*q;qn+=q;}
-      L.push(p.name+' ('+p.city.split(',')[0]+')'+(q?' x'+q:''));
-      L.push('  '+tx('Oferta {o} (piden {p})',{o:fmt(c.offer),p:fmt(p.price)}));
-      L.push('  '+tx('Renta {r} al mes, seguro {i} al año, impuestos {t} al año, HOA {h} al año',{r:fmt(c.rentM),i:fmt(c.ins),t:fmt(c.tax),h:fmt(c.hoa)}));
-      L.push('  '+tx('Retorno neto {r}, ganancia {m} al mes, inversión total en efectivo {c}',{r:pct(c.ret),m:fmt(c.noi/12),c:fmt(c.cash)}));
-      L.push('');
+      L.push(p.name+(q?' x'+q:'')+': '+tx('oferta {o} (piden {p}), renta {r} al mes, retorno neto {x}',{o:fmt(c.offer),p:fmt(p.price),r:fmt(c.rentM),x:pct(c.ret)}));
     });
+    L.push('');
     if(qn){L.push(tx('Mi portafolio: inversión total {c}, ganancia {m} al mes, retorno neto {r}',{c:fmt(cash),m:fmt(net/12),r:pct(cash>0?net/cash:0)}));L.push('');}
-    L.push(tx('Aquí está el comparador con mis números:'));L.push(shareLink());L.push('');L.push(tx('Gracias,'));L.push('Marco');
+    L.push(tx('Aquí está el comparador con todos mis números (seguro, impuestos y más):'));L.push(shareLink());L.push('');L.push(tx('Gracias,'));L.push('Marco');
     return L.join('\n');
   }
   function sendMail(){
@@ -1138,8 +1138,10 @@
   $('sharedreset').addEventListener('click',function(){try{localStorage.removeItem(KEY);}catch(e){}location.href=location.pathname;});
 
   var wasShared=loadShared();
+  var PRINTMODE=/[?&]print=1/.test(location.search);
   buildMap();renderAssume();renderAll();applyStatic();
   if(wasShared){$('shared').hidden=false;}
+  if(PRINTMODE){document.querySelectorAll('details').forEach(function(d){d.open=true;});document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});document.querySelectorAll('.prop').forEach(function(c){c.classList.add('seen');});PROPS.forEach(updateCard);}
   /* respaldo: si el navegador no dispara las animaciones, mostrar todo */
   setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(e){if(e.getBoundingClientRect().top<window.innerHeight*1.3)e.classList.add('in');});},900);
   setTimeout(function(){document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in');});document.querySelectorAll('.prop:not(.seen)').forEach(function(c){c.classList.add('seen');var p=PROPS.filter(function(x){return x.id===c.getAttribute('data-p');})[0];if(p)updateCard(p);});},6000);

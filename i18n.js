@@ -264,11 +264,9 @@ window.I18N_EN = {
  "Volver a los números originales": "Back to the original numbers",
  "Hola Francisco y Maria,": "Hi Francisco and Maria,",
  "Estos son los números que armé en el comparador:": "These are the numbers I put together in the comparison tool:",
- "Oferta {o} (piden {p})": "Offer {o} (asking {p})",
- "Renta {r} al mes, seguro {i} al año, impuestos {t} al año, HOA {h} al año": "Rent {r} per month, insurance {i} per year, taxes {t} per year, HOA {h} per year",
- "Retorno neto {r}, ganancia {m} al mes, inversión total en efectivo {c}": "Net return {r}, profit {m} per month, total cash investment {c}",
  "Mi portafolio: inversión total {c}, ganancia {m} al mes, retorno neto {r}": "My portfolio: total investment {c}, profit {m} per month, net return {r}",
- "Aquí está el comparador con mis números:": "Here is the comparison tool with my numbers:",
  "Gracias,": "Thanks,",
- "Mis números del comparador de inversión (Marco)": "My numbers from the investment comparison (Marco)"
+ "Mis números del comparador de inversión (Marco)": "My numbers from the investment comparison (Marco)",
+ "oferta {o} (piden {p}), renta {r} al mes, retorno neto {x}": "offer {o} (asking {p}), rent {r} per month, net return {x}",
+ "Aquí está el comparador con todos mis números (seguro, impuestos y más):": "Here is the comparison tool with all my numbers (insurance, taxes and more):"
 };
