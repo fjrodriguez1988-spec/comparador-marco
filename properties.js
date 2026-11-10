@@ -9,7 +9,7 @@ window.PROPS = [
     tags:['Construida en 2009','Dúplex tipo townhome','2 unidades de 3 recámaras y 2 baños','Garaje de 1 carro por unidad','Sin HOA','60 días en el mercado'],
     tax:4554, taxNote:'Impuestos del año fiscal 2025 (valor tasado $459,420).',
     ins:3100,
-    rentSrc:'Rentometer, mediana de 29 propiedades similares de 3 recámaras en un radio de 0.75 millas. Promedio reportado: $2,186 por unidad. Rango de la mitad central: $1,841 a $2,530.',
+    rentSrc:'Rentometer QuickView, mediana de 29 propiedades similares de 3 recámaras en un radio de 0.75 millas. Promedio reportado: $2,186 por unidad. Rango de la mitad central: $1,841 a $2,530.',
     rents:[
       {k:'median',label:'Mediana de mercado (Rentometer)',v:4000},
       {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:3682},
@@ -27,7 +27,7 @@ window.PROPS = [
     tags:['Construida en 2022','Dúplex lado a lado','2 unidades de 3 recámaras y 2.5 baños','Aprox. 1,255 pies² por unidad','Sin HOA','155 días en el mercado'],
     tax:3940, taxNote:'Impuestos del año fiscal 2025 (valor tasado $351,820).',
     ins:2800,
-    rentSrc:'Rentometer, mediana de 13 propiedades similares de 3 recámaras en un radio de 5 millas. Promedio reportado: $1,719 por unidad. Rango de la mitad central: $1,580 a $1,857.',
+    rentSrc:'Rentometer QuickView, mediana de 13 propiedades similares de 3 recámaras en un radio de 5 millas. Promedio reportado: $1,719 por unidad. Rango de la mitad central: $1,580 a $1,857.',
     rents:[
       {k:'median',label:'Mediana de mercado (Rentometer)',v:3590},
       {k:'p25',label:'Mercado bajo, percentil 25 (Rentometer)',v:3160},
